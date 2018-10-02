@@ -8,26 +8,46 @@ use File::Copy;
 #use XML::LibXSLT;
 use XML::Simple;
 use Template;
+use YAML;
 use Data::Dumper;
 
 ### PATHS that can be modified to adapt to local environement
+### used as defaults to create the YAML configuration file
 #
-# Dir where tellico files are stored
-my $dir = "$ENV{'HOME'}/Perso/Data";
 # Dir where HTML files will be generated
-my $outdir = "$dir/www";
+my $outdir = "$ENV{'HOME'}/www";
 # Dir where tellico provided files are stored
 my $sharedir = "/usr/share/tellico";
 #
 ### END of PATHS modification
 #
 
-chdir "$dir" || die "Unable to change directory to $dir";
+# Manages configuration file if it exists
+my $cf = "$ENV{'HOME'}/.tellico2htmlrc";
+if (not -f $cf) {
+	print "Creating YAML conf file $cf\n";
+	open(CF,"> $cf") || die "Unable to create $cf";
+	print CF "---\n";
+	print CF "  outdir: $outdir\n";
+	print CF "  sharedir: $sharedir\n";
+	close(CF);
+	print "Please review $cf to adapt to your context\n";
+}
+print "Loading YAML conf file $cf\n";
+my $lh = YAML::LoadFile($cf);
+
+# Setup output directory
+$outdir = $lh->{outdir} if (defined $lh->{outdir});
 mkdir "$outdir",0755 if (not -d "$outdir");
+
+# Setup tellico directory
+$sharedir = $lh->{sharedir} if (defined $lh->{sharedir});
+die "tellico files not available under $sharedir" if (not -d "$sharedir");
 
 #my $xslt = XML::LibXSLT->new();
 #my $style = XML::LibXML->load_xml(location=>"", no_cdata=>1);
 
+# By default use all tc files available where we are
 my @params = <*.tc>;
 # Force the param if given on CLI
 @params = @ARGV if (defined $ARGV[0]);
@@ -38,7 +58,9 @@ my %dup;
 foreach my $file (@params) {
 	print "\nProcessing tellico file $file\n";
 	print "-----------------------\n";
-	# Look for template early
+	# Look for template early in the same directory as the tellico file
+	my $dir = dirname($file);
+	chdir "$dir" || die "Unable to change directory to $dir";
 	my $out = basename($file,".tc");
 	my $tout = "$out.tt";
 	if (not -f "$tout") {
@@ -120,11 +142,12 @@ foreach my $file (@params) {
 	$h->{collection}->{maintitle} = $h->{collection}->{title};
 
 	my $fout = "$outdir/$out.html";
-	print "Generating HTML file $fout using template $tout\n";
+	print "Generating main HTML file $fout using template $tout\n";
 
 	# link some mandatory files
 	foreach my $file ("pics/checkmark.png","tellico2html.js","shadowAlpha.png") {
 		my $dfile =basename($file);
+		warn "tellico file $file not available under $sharedir" if (not -f "$sharedir/$file");
 		copy("$sharedir/$file","$outdir/$dfile") if (not -f "$outdir/$dfile");
 	}
 
@@ -132,12 +155,22 @@ foreach my $file (@params) {
 	my $tt = Template->new({ENCODING => 'utf8'}) || die "$Template::ERROR\n";
 	$tt->process($tout,$h,"$fout",{ binmode => ':encoding(utf8)' }) || die "Template process failed: ", $tt->error(), "\n";
 
-	print "Generating HTML ".@$e." detailed files using template $tsub\n";
+	print "Generating ".@$e." HTML detailed files using template $tsub\n";
+	# copy gradient files
+	foreach my $f ("gradient_header.png","gradient_bg.png") {
+		my $ret = link("$dir/$out"."_files/$f","$outdir/$f");
+		copy("$dir/$out"."_files/$f","$outdir/$f") if (not $ret);
+	}
 	# prepare HTML output subfiles using Template Toolkit
 	foreach my $k (@$e) {
 		my $subf = "$fdir/$k->{id}.html";
 		# Copy cover image 
-		link("$out"."_files/$k->{cover}","$fdir/$k->{cover}") if ((defined $k->{cover}) && (-f "$out"."_files/$k->{cover}"));
+		if ((defined $k->{cover}) && (-f "$dir/$out"."_files/$k->{cover}")) {
+			#print "Cover: $dir/$out"."_files/$k->{cover}\n";
+			# Link first and copy if unsuccessful
+			my $ret = link("$dir/$out"."_files/$k->{cover}","$fdir/$k->{cover}");
+			copy("$dir/$out"."_files/$k->{cover}","$fdir/$k->{cover}") if (not $ret);
+		}
 		# Fix dates format
 		$k->{cdate} .= " 0:0:0" if (defined $k->{cdate});
 		$k->{mdate} .= " 0:0:0" if (defined $k->{mdate});
