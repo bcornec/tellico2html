@@ -1,0 +1,142 @@
+[% INCLUDE Header_files.tt %]
+[% USE Date %]
+
+<title>[% titles.title %] – [% collection.maintitle %]</title>
+</head>
+<body>
+<div id="id">[% id %]</div>
+<h1>[% titles.title %]</h1>
+<div id="images">
+<div class="img-shadow">[% IF amazon != '' %]<a href="[% amazon %]">[% END %]<img style="vertical-align:bottom;" alt="" src="./[% cover %]" width="150">[% IF amazon != '' %]</a>[% END %]</div>
+<br>
+</div>
+<div id="content">
+<div class="container"><div class="category">
+<h2>[% collection.subtitle.category %]</h2>
+<table><tbody>
+<tr>
+<th class="fieldName" valign="top">[% collection.titles.title %]:</th>
+<td class="fieldValue">[% titles.title %]</td>
+</tr>
+<tr>
+<th class="fieldName" valign="top">[% collection.subtitle.title %]:</th>
+<td class="fieldValue">[% subtitle %]</td>
+</tr>
+<tr>
+<tr>
+<th class="fieldName" valign="top">[% collection.author.title %]:</th>
+<td class="fieldValue">[% authors.author.join(', ') %]</td>
+</tr>
+<tr>
+<th class="fieldName" valign="top">[% collection.series.title %]:</th>
+<td class="fieldValue">[% seriess.series.join(', ') %]</td>
+</tr>
+<tr>
+<th class="fieldName" valign="top">[% collection.issue.title %]:</th>
+<td class="fieldValue">[% issues.issue %]</td>
+</tr>
+[% IF amazon != '' %]
+<tr>
+<th class="fieldName" valign="top">[% collection.amazon.title %]:</th>
+<td class="fieldValue"><a href="[% amazon %]">Buy from Amazon.com</a></td>
+</tr>
+[% END %]
+<tr>
+<th class="fieldName" valign="top">[% collection.binding.title %]:</th>
+<td class="fieldValue">[% binding %]</td>
+</tr>
+</tbody></table>
+</div></div>
+<div class="container"><div class="category">
+<h2>[% collection.publisher.category %]</h2>
+<table><tbody>
+<tr>
+<th class="fieldName" valign="top">[% collection.publisher.title %]:</th>
+<td class="fieldValue">[% publisher %]</td>
+</tr>
+<tr>
+<th class="fieldName" valign="top">[% collection.edition.title %]:</th>
+<td class="fieldValue">[% edition %]</td>
+</tr>
+<tr>
+<th class="fieldName" valign="top">[% collection.pub_year.title %]:</th>
+<td class="fieldValue">[% pub_year %]</td>
+</tr>
+<tr>
+<th class="fieldName" valign="top">[% collection.pages.title %]:</th>
+<td class="fieldValue">[% pages %]</td>
+</tr>
+<tr>
+<th class="fieldName" valign="top">[% collection.country.title %]:</th>
+<td class="fieldValue">[% country %]</td>
+</tr>
+<tr>
+<th class="fieldName" valign="top">[% collection.isbn.title %]:</th>
+<td class="fieldValue">[% isbn %]</td>
+</tr>
+<tr>
+<th class="fieldName" valign="top">[% collection.langue1.title %]:</th>
+<td class="fieldValue">[% langue1 %]</td>
+</tr>
+</tbody></table>
+</div></div>
+<div class="container"><div class="category">
+<h2>[% collection.genre.category %]</h2>
+<table><tbody>
+<tr>
+<th class="fieldName" valign="top">[% collection.genre.title %]:</th>
+<td class="fieldValue">[% genre %]</td>
+</tr>
+<tr>
+<th class="fieldName" valign="top">[% collection.keyword.title %]:</th>
+<td class="fieldValue">[% keywords.keyword.join(', ') %]</td>
+</tr>
+<tr>
+<th class="fieldName" valign="top">[% collection.condition.title %]:</th>
+<td class="fieldValue">[% condition %]</td>
+</tr>
+</tbody></table>
+</div></div>
+<div class="container"><div class="category">
+<h2>[% collection.pur_price.category %]</h2>
+<table><tbody>
+<tr>
+<th class="fieldName" valign="top">[% collection.pur_price.title %]:</th>
+<td class="fieldValue">[% pur_price %]</td>
+</tr>
+<tr>
+<th class="fieldName" valign="top">[% collection.signed.title %]:</th>
+<td class="fieldValue">[% signed %]</td>
+</tr>
+<tr>
+<th class="fieldName" valign="top">[% collection.gift.title %]:</th>
+<td class="fieldValue">[% gift %]</td>
+</tr>
+<tr>
+<th class="fieldName" valign="top">[% collection.loaned.title %]:</th>
+<td class="fieldValue">[% loaned %]</td>
+</tr>
+<tr>
+<th class="fieldName" valign="top">[% collection.lu.title %]:</th>
+[% IF lu %]
+<td class="fieldValue"><img height="14" alt="✓" src="../checkmark.png"></td>
+[% ELSE %]
+<td class="fieldValue"></td>
+[% END %]
+</tr>
+<tr>
+<th class="fieldName" valign="top">[% collection.date_achat.title %]:</th>
+<td class="fieldValue">[% date_achat %]</td>
+</tr>
+</tbody></table>
+</div></div>
+[% IF comments != '' %]
+<div class="container"><div class="category">
+<h2>[% collection.comments.title %]</h2>
+[% comments %]
+</div></div>
+[% END %]
+</div>
+<p class="navigation"><a href="../BD.html">&lt;&lt; [% collection.maintitle %]</a></p>
+
+[% INCLUDE Footer_files.tt %]

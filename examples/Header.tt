@@ -1,0 +1,115 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<style type="text/css">
+   body {
+        font-family: sans-serif;
+        
+        font-size: 80%;
+        
+        background-color: #fff;
+   }
+   #headerblock {
+        padding-top: 10px;
+        margin-bottom: 10px;
+        border-bottom: 1px solid black;
+        overflow: auto;
+   }
+   h1.colltitle {
+        padding: 4px;
+        font-size: 2em;
+        margin: 0px;
+   }
+   span.subtitle {
+        margin-left: 20px;
+        font-size: 0.8em;
+   }
+   form {
+        margin: 5px 0 0 0;
+        float: right;
+   }
+   #searchText {
+        background-color: #eee;
+   }
+   input {
+        padding: 0;
+        margin: 0 0 4px 4px;
+   }
+   .button {
+        padding: 0;
+        margin: 0 0 4px 4px;
+   }
+   table, h4 {
+        margin-left: auto;
+        margin-right: auto;
+   }
+   td.groupName {
+        margin-top: 10px;
+        margin-bottom: 2px;
+        padding-left: 4px;
+        background: #ccc;
+        font-size: 1.1em;
+        font-weight: bolder;
+   }
+   th {
+        color: #000;
+        background-color: #ccc;
+        border: 1px solid #999;
+        font-size: 1.1em;
+        font-weight: bold;
+        padding-left: 4px;
+        padding-right: 4px;
+   }
+   thead tr {
+        cursor: pointer;
+   }
+   tr.entry0 {
+        background-color: #eee;
+   }
+   tr.entry1 {
+   }
+   tr.hidden {
+        display: none;
+   }
+   tr.groupEntry0 {
+   }
+   tr.groupEntry1 {
+        background-color: #eee;
+   }
+   td.field {
+        margin-left: 0px;
+        margin-right: 0px;
+        padding-left: 5px;
+        padding-right: 5px;
+        border: 1px solid #eee;
+        text-align: left;
+   }
+   a.sortheader {
+        text-decoration: none;
+        /*display: block;*/
+   }
+   </style>
+<script type="text/javascript">
+ var COL_SORT_ARRAY = new Array()
+ 
+  COL_SORT_ARRAY[0] = 1
+  COL_SORT_ARRAY[1] = 0
+  COL_SORT_ARRAY[2] = 1
+  COL_SORT_ARRAY[3] = 0
+  COL_SORT_ARRAY[4] = 0
+  COL_SORT_ARRAY[5] = 0
+  COL_SORT_ARRAY[6] = 0
+  COL_SORT_ARRAY[7] = 1
+  COL_SORT_ARRAY[8] = 2
+</script>
+<script src="[% outdir %]/tellico2html.js" type="text/javascript"></script><title>[% collection.maintitle %]</title>
+</head>
+<body>
+<div id="headerblock">
+<form onsubmit="return false" action=""><div>
+<input id="searchText" type="text"><input onclick="searchRows()" class="button" type="button" value="Chercher"><input onclick="showAll()" class="button" type="button" value="Effacer">
+</div></form>
+<h1 class="colltitle">[% collection.maintitle %]<span class="subtitle"></span>
+</h1>
+</div>

@@ -1,0 +1,40 @@
+[% INCLUDE Header.tt %]
+[% USE Date %]
+<table class="sortable" id="table1">
+<thead><tr>
+<th>[% collection.fields.field.id.title %]</th>
+<th>[% collection.fields.field.series.title %]</th>
+<th>[% collection.fields.field.issue.title %]</th>
+<th>[% collection.fields.field.title.title %]</th>
+<th>[% collection.fields.field.publisher.title %]</th>
+<th>[% collection.fields.field.author.title %]</th>
+<th>[% collection.fields.field.lu.title %]</th>
+<th>[% collection.fields.field.pub_year.title %]</th>
+<th>[% collection.fields.field.date_achat.title %]</th>
+</tr></thead>
+<tbody>
+
+[% FOREACH item = collection.entry %]
+[% IF (loop.index() mod 2) == 0 %]
+<tr class="entry0">
+[% ELSE %]
+<tr class="entry1">
+[% END %]
+<td class="field" style="text-align: center; padding-left: 5px">[% item.id %]</td>
+<td class="field">[% item.seriess.series.join(', ') %]</td>
+<td class="field" style="text-align: center; padding-left: 5px">[% item.issues.issue %]</td>
+<td class="field"><a href="[% fdir %]/[% item.id %].html">[% item.titles.title %]</a></td>
+<td class="field">[% item.publisher %]</td>
+<td class="field">[% item.authors.author.join(', ') %]</td>
+[% IF item.lu %]
+<td class="field" style="text-align: center; padding-left: 5px"><img height="14" alt="✓" src="checkmark.png"></td>
+[% ELSE %]
+<td class="field" style="text-align: center; padding-left: 5px"></td>
+[% END %]
+<td class="field">[% item.pub_year %]</td>
+<td class="field">[% item.date_achat %]</td>
+</tr>
+[% END %]
+</tbody>
+</table>
+[% INCLUDE Footer.tt %]

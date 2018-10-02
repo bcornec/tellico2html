@@ -1,0 +1,44 @@
+[% INCLUDE Header.tt %]
+[% USE Date %]
+<table class="sortable" id="table1">
+<thead><tr>
+<th>[% collection.fields.field.id.title %]</th>
+<th>[% collection.fields.field.title.title %]</th>
+<th>[% collection.fields.field.appelation.title %]</th>
+<th>[% collection.fields.field.année.title %]</th>
+<th>[% collection.fields.field.région.title %]</th>
+<th>[% collection.fields.field.type.title %]</th>
+<th>[% collection.fields.field.quantity.title %]</th>
+<th>[% collection.fields.field.reste.title %]</th>
+<th>[% collection.fields.field.contenance.title %]</th>
+<th>[% collection.fields.field.date_dachat.title %]</th>
+<th>[% collection.fields.field.bu.title %]</th>
+</tr></thead>
+<tbody>
+
+[% FOREACH item = collection.entry %]
+[% IF (loop.index() mod 2) == 0 %]
+<tr class="entry0">
+[% ELSE %]
+<tr class="entry1">
+[% END %]
+<td class="field" style="text-align: center; padding-left: 5px">[% item.id %]</td>
+<td class="field"><a href="[% fdir %]/[% item.id %].html">[% item.title %]</a></td>
+<td class="field">[% item.appellation %]</td>
+<td class="field" style="text-align: center; padding-left: 5px">[% item.année %]</td>
+<td class="field" style="text-align: center; padding-left: 5px">[% item.région %]</td>
+<td class="field" style="text-align: center; padding-left: 5px">[% item.type %]</td>
+<td class="field" style="text-align: center; padding-left: 5px">[% item.quantity %]</td>
+<td class="field" style="text-align: center; padding-left: 5px">[% item.reste %]</td>
+<td class="field" style="text-align: center; padding-left: 5px">[% item.contenance %]</td>
+<td class="field">[% item.date_dachat %]</td>
+[% IF item.bu %]
+<td class="field" style="text-align: center; padding-left: 5px"><img height="14" alt="✓" src="checkmark.png"></td>
+[% ELSE %]
+<td class="field" style="text-align: center; padding-left: 5px"></td>
+[% END %]
+</tr>
+[% END %]
+</tbody>
+</table>
+[% INCLUDE Footer.tt %]

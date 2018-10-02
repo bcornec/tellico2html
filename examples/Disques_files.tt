@@ -1,0 +1,201 @@
+[% INCLUDE Header_files.tt %]
+[% USE Date %]
+
+<title>[% titles.title %] – [% collection.maintitle %]</title>
+</head>
+<body>
+<div id="id">[% id %]</div>
+<h1>[% titles.title %]</h1>
+<div id="images">
+<div class="img-shadow">[% IF amazon != '' %]<a href="[% amazon %]">[% END %]<img style="vertical-align:bottom;" alt="" src="./[% cover %]" width="150">[% IF amazon != '' %]</a>[% END %]</div>
+<br>
+</div>
+<div id="content">
+<div class="container"><div class="category">
+<h2>[% collection.genre.category %]</h2>
+<table><tbody>
+<tr>
+<th class="fieldName" valign="top">[% collection.title.title %]:</th>
+<td class="fieldValue">[% titles.title %]</td>
+</tr>
+<tr>
+<th class="fieldName" valign="top">[% collection.compositeur.title %]:</th>
+<td class="fieldValue">[% compositeurs.compositeur.join(', ') %]</td>
+</tr>
+<tr>
+<th class="fieldName" valign="top">[% collection.medium.title %]:</th>
+<td class="fieldValue">[% medium %]</td>
+</tr>
+<tr>
+<th class="fieldName" valign="top">[% collection.type.title %]:</th>
+<td class="fieldValue">[% type %]</td>
+</tr>
+<tr>
+<th class="fieldName" valign="top">[% collection.year.title %]:</th>
+<td class="fieldValue">[% year %]</td>
+</tr>
+<tr>
+<th class="fieldName" valign="top">[% collection.style.title %]:</th>
+<td class="fieldValue">[% style %]</td>
+</tr>
+<tr>
+<th class="fieldName" valign="top">[% collection.artist.title %]:</th>
+<td class="fieldValue">[% artists.artist.join(', ') %]</td>
+</tr>
+<tr>
+<th class="fieldName" valign="top">[% collection.ensemble.title %]:</th>
+<td class="fieldValue">[% ensembles.ensemble.join(', ') %]</td>
+</tr>
+<tr>
+<th class="fieldName" valign="top">[% collection.label.title %]:</th>
+<td class="fieldValue">[% labels.label.join(', ') %]</td>
+</tr>
+<tr>
+<th class="fieldName" valign="top">[% collection.référence.title %]:</th>
+<td class="fieldValue">[% références.référence.join(', ') %]</td>
+</tr>
+[% IF  référence_ensembles.référence_ensemble != '' %]
+<tr>
+<th class="fieldName" valign="top">[% collection.référence_ensemble.title %]:</th>
+<td class="fieldValue"><a href="[% référence_ensembles.référence_ensemble.join(', ') %]">Buy from Amazon.com</a></td>
+</tr>
+[% END %]
+<tr>
+<th class="fieldName" valign="top">[% collection.genre.title %]:</th>
+<td class="fieldValue">[% genres.genre.join(', ') %]</td>
+</tr>
+[% IF volume != '' %]
+<tr>
+<th class="fieldName" valign="top">[% collection.volume.title %]:</th>
+[% IF volume_totaux != '' %]
+<td class="fieldValue">[% volume %]/[% volume_totaux %]</td>
+[% ELSE %]
+<td class="fieldValue">[% volume %]/???</td>
+[% END %]
+</tr>
+[% END %]
+[% IF amazon != '' %]
+<tr>
+<th class="fieldName" valign="top">[% collection.amazon.title %]:</th>
+<td class="fieldValue"><a href="[% amazon %]">Buy from Amazon.com</a></td>
+</tr>
+[% END %]
+[% IF volume_série != '' %]
+<tr>
+<th class="fieldName" valign="top">[% collection.volume_série.title %]:</th>
+<td class="fieldValue">[% volume_série %]</td>
+</tr>
+[% END %]
+</tbody></table>
+</div></div>
+<div class="container"><div class="category">
+<h2>[% collection.track.category %]</h2>
+<table width="100%">
+<thead><tr>
+[% USE Dumper %]
+[% FOREACH item IN collection.track.prop %]
+[%#
+<!-- [% Dumper.dump(item) %] -->
+%]
+[% NEXT IF item.key == 'columns' %]
+<th class="fieldName" valign="top" width="50%">[% item.value.content %]</th>
+[% END %]
+</tr></thead>
+<tbody>
+[% FOREACH item IN tracks.track %]
+<tr>
+[%# if there is a single row it's value the key
+     if there are multiple, then it's column !
+%]
+[% FOREACH column IN item.value %]
+[%#
+<!-- column1: [% Dumper.dump(column) %] -->
+%]
+[% IF column.size %]
+<td class="fieldValue" width="33%">[% column %]</td>
+[% ELSE %]
+<td class="fieldValue" width="33%"></td>
+[% END %]
+[% END %]
+[% FOREACH column IN item.column %]
+[% IF column.size %]
+<td class="fieldValue" width="33%">[% column %]</td>
+[% ELSE %]
+<td class="fieldValue" width="33%"></td>
+[% END %]
+[% END %]
+</tr>
+[% END %]
+</tbody></table>
+</div></div>
+<div class="container"><div class="category">
+<h2>[% collection.rangement.category %]</h2>
+<table><tbody>
+<tr>
+<th class="fieldName" valign="top">[% collection.keyword.title %]:</th>
+<td class="fieldValue">[% keywords.keyword.join(', ') %]</td>
+</tr>
+<tr>
+<th class="fieldName" valign="top">[% collection.rangement.title %]:</th>
+<td class="fieldValue">[% rangement %]</td>
+</tr>
+<tr>
+<th class="fieldName" valign="top">[% collection.pur_price.title %]:</th>
+<td class="fieldValue">[% pur_price %]</td>
+</tr>
+<tr>
+<th class="fieldName" valign="top">[% collection.date_achat.title %]:</th>
+<td class="fieldValue">[% date_achat %]</td>
+</tr>
+<tr>
+<th class="fieldName" valign="top">[% collection.loaned.title %]:</th>
+[% IF loaned %]
+<td class="fieldValue"><img height="14" alt="✓" src="../checkmark.png"></td>
+[% ELSE %]
+<td class="fieldValue"></td>
+[% END %]
+</tr>
+<tr>
+<th class="fieldName" valign="top">[% collection.rating.title %]:</th>
+<td class="fieldValue">[% rating %]</td>
+</tr>
+<tr>
+<th class="fieldName" valign="top">[% collection.gift.title %]:</th>
+[% IF gift %]
+<td class="fieldValue"><img height="14" alt="✓" src="../checkmark.png"></td>
+[% ELSE %]
+<td class="fieldValue"></td>
+[% END %]
+</tr>
+<tr>
+<th class="fieldName" valign="top">[% collection.ecouté.title %]:</th>
+[% IF ecouté %]
+<td class="fieldValue"><img height="14" alt="✓" src="../checkmark.png"></td>
+[% ELSE %]
+<td class="fieldValue"></td>
+[% END %]
+</tr>
+<tr>
+<th class="fieldName" valign="top">[% collection.copie.title %]:</th>
+[% IF copie %]
+<td class="fieldValue"><img height="14" alt="✓" src="../checkmark.png"></td>
+[% ELSE %]
+<td class="fieldValue"></td>
+[% END %]
+</tr>
+<tr>
+<th class="fieldName" valign="top">[% collection.dédicacé.title %]:</th>
+[% IF dédicacé %]
+<td class="fieldValue"><img height="14" alt="✓" src="../checkmark.png"></td>
+[% ELSE %]
+<td class="fieldValue"></td>
+[% END %]
+</tr>
+<tr>
+<th class="fieldName" valign="top">[% collection.mp3.title %]:</th>
+<td class="fieldValue">[% mp3 %]</td>
+</tr>
+</tbody></table>
+</div></div>
+
+[% INCLUDE Footer_files.tt %]

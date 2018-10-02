@@ -1,0 +1,44 @@
+[% INCLUDE Header.tt %]
+[% USE Date %]
+<table class="sortable" id="table1">
+<thead><tr>
+<th>[% collection.fields.field.id.title %]</th>
+<th>[% collection.fields.field.title.title %]</th>
+<th>[% collection.fields.field.director.title %]</th>
+<th>[% collection.fields.field.year.title %]</th>
+<th>[% collection.fields.field.running_time.title %]</th>
+<th>[% collection.fields.field.date_achat.title %]</th>
+<th>[% collection.fields.field.vu.title %]</th>
+<th>[% collection.fields.field.copie.title %]</th>
+<th>[% collection.fields.field.rangement.title %]</th>
+</tr></thead>
+<tbody>
+
+[% FOREACH item = collection.entry %]
+[% IF (loop.index() mod 2) == 0 %]
+<tr class="entry0">
+[% ELSE %]
+<tr class="entry1">
+[% END %]
+<td class="field" style="text-align: center; padding-left: 5px">[% item.id %]</td>
+<td class="field"><a href="[% fdir %]/[% item.id %].html">[% item.title %]</a></td>
+<td class="field">[% item.directors.director.join('- ') %]</td>
+<td class="field" style="text-align: center; padding-left: 5px">[% item.year %]</td>
+<td class="field" style="text-align: center; padding-left: 5px">[% item.running_time %]</td>
+<td class="field">[% item.date_achat %]</td>
+[% IF item.vu %]
+<td class="field" style="text-align: center; padding-left: 5px"><img height="14" alt="✓" src="checkmark.png"></td>
+[% ELSE %]
+<td class="field" style="text-align: center; padding-left: 5px"></td>
+[% END %]
+[% IF item.copie %]
+<td class="field" style="text-align: center; padding-left: 5px"><img height="14" alt="✓" src="checkmark.png"></td>
+[% ELSE %]
+<td class="field" style="text-align: center; padding-left: 5px"></td>
+[% END %]
+<td class="field">[% item.rangement %]</td>
+</tr>
+[% END %]
+</tbody>
+</table>
+[% INCLUDE Footer.tt %]

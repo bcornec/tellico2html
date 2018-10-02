@@ -1,0 +1,48 @@
+[% INCLUDE Header.tt %]
+[% USE Date %]
+<table class="sortable" id="table1">
+<thead><tr>
+<th>[% collection.fields.field.id.title %]</th>
+<th>[% collection.fields.field.series.title %]</th>
+<th>[% collection.fields.field.tome.title %]</th>
+<th>[% collection.fields.field.nb_tomes.title %]</th>
+<th>[% collection.fields.field.title.title %]</th>
+<th>[% collection.fields.field.publisher.title %]</th>
+<th>[% collection.fields.field.edition.title %]</th>
+<th>[% collection.fields.field.author.title %]</th>
+<th>[% collection.fields.field.date_dachat.title %]</th>
+<th>[% collection.fields.field.date_lu.title %]</th>
+<th>[% collection.fields.field.pub_year.title %]</th>
+<th>[% collection.fields.field.pages.title %]</th>
+<th>[% collection.fields.field.read.title %]</th>
+</tr></thead>
+<tbody>
+
+[% FOREACH item = collection.entry %]
+[% IF (loop.index() mod 2) == 0 %]
+<tr class="entry0">
+[% ELSE %]
+<tr class="entry1">
+[% END %]
+<td class="field" style="text-align: center; padding-left: 5px">[% item.id %]</td>
+<td class="field">[% item.series %]</td>
+<td class="field" style="text-align: center; padding-left: 5px">[% item.tome %]</td>
+<td class="field" style="text-align: center; padding-left: 5px">[% item.nb_tomes %]</td>
+<td class="field"><a href="[% fdir %]/[% item.id %].html">[% item.title %]</a></td>
+<td class="field">[% item.publisher %]</td>
+<td class="field">[% item.edition %]</td>
+<td class="field">[% item.authors.author.join(', ') %]</td>
+<td class="field">[% item.date_dachat %]</td>
+<td class="field">[% item.date_lu %]</td>
+<td class="field">[% item.pub_year %]</td>
+<td class="field">[% item.pages %]</td>
+[% IF item.read %]
+<td class="field" style="text-align: center; padding-left: 5px"><img height="14" alt="✓" src="checkmark.png"></td>
+[% ELSE %]
+<td class="field" style="text-align: center; padding-left: 5px"></td>
+[% END %]
+</tr>
+[% END %]
+</tbody>
+</table>
+[% INCLUDE Footer.tt %]

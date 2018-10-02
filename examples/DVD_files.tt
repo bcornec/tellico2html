@@ -1,0 +1,264 @@
+[% INCLUDE Header_files.tt %]
+[% USE Date %]
+
+<title>[% title %] – [% collection.maintitle %]</title>
+</head>
+<body>
+<div id="id">[% id %]</div>
+<h1>[% titles.title %]</h1>
+<div id="images">
+<div class="img-shadow">[% IF amazon != '' %]<a href="[% amazon %]">[% END %]<img style="vertical-align:bottom;" alt="" src="./[% cover %]" width="150">[% IF amazon != '' %]</a>[% END %]</div>
+<br>
+</div>
+<div id="content">
+<div class="container"><div class="category">
+<h2>[% collection.title.category %]</h2>
+<table><tbody>
+<tr>
+<th class="fieldName" valign="top">[% collection.title.title %]:</th>
+<td class="fieldValue">[% title %]</td>
+</tr>
+<tr>
+<th class="fieldName" valign="top">[% collection.medium.title %]:</th>
+<td class="fieldValue">[% medium %]</td>
+</tr>
+<tr>
+<th class="fieldName" valign="top">[% collection.year.title %]:</th>
+<td class="fieldValue">[% year %]</td>
+</tr>
+<tr>
+<th class="fieldName" valign="top">[% collection.genre.title %]:</th>
+<td class="fieldValue">[% genres.genre.join(', ') %]</td>
+</tr>
+<tr>
+<th class="fieldName" valign="top">[% collection.region.title %]:</th>
+<td class="fieldValue">[% region %]</td>
+</tr>
+<tr>
+<th class="fieldName" valign="top">[% collection.nationality.title %]:</th>
+<td class="fieldValue">[% nationalitys.nationality.join(', ') %]</td>
+</tr>
+[% IF certification != '' %]
+<tr>
+<th class="fieldName" valign="top">[% collection.certification.title %]:</th>
+<td class="fieldValue">[% certification %]</td>
+</tr>
+[% END %]
+[% IF imdb != '' %]
+<tr>
+<th class="fieldName" valign="top">[% collection.imdb.title %]:</th>
+<td class="fieldValue">[% imdb %]</td>
+</tr>
+[% END %]
+[% IF titre_original != '' %]
+<tr>
+<th class="fieldName" valign="top">[% collection.titre_original.title %]:</th>
+<td class="fieldValue">[% titre_original %]</td>
+</tr>
+[% END %]
+[% IF amazon != '' %]
+<tr>
+<th class="fieldName" valign="top">[% collection.amazon.title %]:</th>
+<td class="fieldValue"><a href="[% amazon %]">Buy from Amazon.com</a></td>
+</tr>
+[% END %]
+[% IF allocine != '' %]
+<tr>
+<th class="fieldName" valign="top">[% collection.allocine.title %]:</th>
+<td class="fieldValue">[% allocine %]</td>
+</tr>
+[% END %]
+[% IF imdb_rating != '' %]
+<tr>
+<th class="fieldName" valign="top">[% collection.imdb_rating.title %]:</th>
+<td class="fieldValue">[% imdb_rating %]</td>
+</tr>
+[% END %]
+</tbody></table>
+</div></div>
+<div class="container"><div class="category">
+<h2>[% collection.cast.category %]</h2>
+<table width="100%">
+<thead><tr>
+[% USE Dumper %]
+[% FOREACH item IN collection.cast.prop %]
+[%#
+<!-- [% Dumper.dump(item) %] -->
+%]
+[% NEXT IF item.key == 'columns' %]
+<th class="fieldName" valign="top" width="50%">[% item.value.content %]</th>
+[% END %]
+</tr></thead>
+<tbody>
+[% FOREACH item IN casts.cast %]
+<tr>
+[%# if there is a single row it's value the key
+     if there are multiple, then it's column !
+%]
+[% FOREACH column IN item.value %]
+[%#
+<!-- column1: [% Dumper.dump(column) %] -->
+%]
+[% IF column.size %]
+<td class="fieldValue" width="33%">[% column %]</td>
+[% ELSE %]
+<td class="fieldValue" width="33%"></td>
+[% END %]
+[% END %]
+[% FOREACH column IN item.column %]
+[%#
+<!-- [% Dumper.dump(column) %] -->
+%]
+[% IF column.size %]
+<td class="fieldValue" width="33%">[% column %]</td>
+[% ELSE %]
+<td class="fieldValue" width="33%"></td>
+[% END %]
+[% END %]
+</tr>
+[% END %]
+</tbody></table>
+</div></div>
+<div class="container"><div class="category">
+<h2>[% collection.director.category %]</h2>
+<table><tbody>
+<tr>
+<th class="fieldName" valign="top">[% collection.director.title %]:</th>
+<td class="fieldValue">[% directors.director.join(', ') %]</td>
+</tr>
+<tr>
+<th class="fieldName" valign="top">[% collection.writer.title %]:</th>
+<td class="fieldValue">[% writers.writer.join(', ') %]</td>
+</tr>
+<tr>
+<th class="fieldName" valign="top">[% collection.studio.title %]:</th>
+<td class="fieldValue">[% studios.studio.join(', ') %]</td>
+</tr>
+<tr>
+<th class="fieldName" valign="top">[% collection.producer.title %]:</th>
+<td class="fieldValue">[% producers.producer.join(', ') %]</td>
+</tr>
+<tr>
+<th class="fieldName" valign="top">[% collection.composer.title %]:</th>
+<td class="fieldValue">[% composers.composer.join(', ') %]</td>
+</tr>
+</tbody></table>
+</div></div>
+<div class="container"><div class="category">
+<h2>[% collection.color.category %]</h2>
+<table><tbody>
+<tr>
+<th class="fieldName" valign="top">[% collection.language.title %]:</th>
+<td class="fieldValue">[% languages.language.join(', ') %]</td>
+</tr>
+<tr>
+<th class="fieldName" valign="top">[% collection.audio_track.title %]:</th>
+<td class="fieldValue">[% audio_tracks.audio_track.join(', ') %]</td>
+</tr>
+<tr>
+<th class="fieldName" valign="top">[% collection.aspect_ratio.title %]:</th>
+<td class="fieldValue">[% aspect_ratios.aspect_ratio.join(', ') %]</td>
+</tr>
+<tr>
+<th class="fieldName" valign="top">[% collection.color.title %]:</th>
+<td class="fieldValue">[% color %]</td>
+</tr>
+<tr>
+<th class="fieldName" valign="top">[% collection.subtitle.title %]:</th>
+<td class="fieldValue">[% subtitles.subtitle.join(', ') %]</td>
+</tr>
+<tr>
+<th class="fieldName" valign="top">[% collection.running_time.title %]:</th>
+<td class="fieldValue">[% running_time %]</td>
+</tr>
+<tr>
+<th class="fieldName" valign="top">[% collection.widescreen.title %]:</th>
+[% IF widescreen %]
+<td class="fieldValue"><img height="14" alt="✓" src="../checkmark.png"></td>
+[% ELSE %]
+<td class="fieldValue"></td>
+[% END %]
+</tr>
+<tr>
+<th class="fieldName" valign="top">[% collection.directors_cut.title %]:</th>
+[% IF directors_cut %]
+<td class="fieldValue"><img height="14" alt="✓" src="../checkmark.png"></td>
+[% ELSE %]
+<td class="fieldValue"></td>
+[% END %]
+</tr>
+</tbody></table>
+</div></div>
+[% IF plot != '' %]
+<div class="container"><div class="category">
+<h2>[% collection.plot.title %]</h2>
+[% plot %]
+</div></div>
+[% END %]
+<div class="container"><div class="category">
+<h2>[% collection.rangement.category %]</h2>
+<table><tbody>
+<tr>
+<th class="fieldName" valign="top">[% collection.rating.title %]:</th>
+<td class="fieldValue">[% rating %]</td>
+</tr>
+<tr>
+<th class="fieldName" valign="top">[% collection.rangement.title %]:</th>
+<td class="fieldValue">[% rangement %]</td>
+</tr>
+<tr>
+<th class="fieldName" valign="top">[% collection.pur_price.title %]:</th>
+<td class="fieldValue">[% pur_price %]</td>
+</tr>
+<tr>
+<th class="fieldName" valign="top">[% collection.date_achat.title %]:</th>
+<td class="fieldValue">[% date_achat %]</td>
+</tr>
+<tr>
+<th class="fieldName" valign="top">[% collection.gift.title %]:</th>
+[% IF gift %]
+<td class="fieldValue"><img height="14" alt="✓" src="../checkmark.png"></td>
+[% ELSE %]
+<td class="fieldValue"></td>
+[% END %]
+</tr>
+<tr>
+<th class="fieldName" valign="top">[% collection.vu.title %]:</th>
+[% IF vu %]
+<td class="fieldValue"><img height="14" alt="✓" src="../checkmark.png"></td>
+[% ELSE %]
+<td class="fieldValue"></td>
+[% END %]
+</tr>
+<tr>
+<th class="fieldName" valign="top">[% collection.loaned.title %]:</th>
+[% IF loaned %]
+<td class="fieldValue"><img height="14" alt="✓" src="../checkmark.png"></td>
+[% ELSE %]
+<td class="fieldValue"></td>
+[% END %]
+</tr>
+<tr>
+<th class="fieldName" valign="top">[% collection.prêté_à_qui.title %]:</th>
+<td class="fieldValue">[% prêté_à_qui %]</td>
+</tr>
+<tr>
+<th class="fieldName" valign="top">[% collection.copie.title %]:</th>
+[% IF copie %]
+<td class="fieldValue"><img height="14" alt="✓" src="../checkmark.png"></td>
+[% ELSE %]
+<td class="fieldValue"></td>
+[% END %]
+</tr>
+<tr>
+<th class="fieldName" valign="top">[% collection.dédicacé.title %]:</th>
+[% IF dédicacé %]
+<td class="fieldValue"><img height="14" alt="✓" src="../checkmark.png"></td>
+[% ELSE %]
+<td class="fieldValue"></td>
+[% END %]
+</tr>
+</tbody></table>
+</div></div>
+
+[% INCLUDE Footer_files.tt %]

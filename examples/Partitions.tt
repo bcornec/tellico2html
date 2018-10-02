@@ -1,0 +1,36 @@
+[% INCLUDE Header.tt %]
+[% USE Date %]
+<table class="sortable" id="table1">
+<thead><tr>
+<th>[% collection.fields.field.id.title %]</th>
+<th>[% collection.fields.field.title.title %]</th>
+<th>[% collection.fields.field.artist.title %]</th>
+<th>[% collection.fields.field.tome.title %]</th>
+<th>[% collection.fields.field.nombre_de_volumes.title %]</th>
+<th>[% collection.fields.field.label.title %]</th>
+<th>[% collection.fields.field.référence.title %]</th>
+<th>[% collection.fields.field.date_dachat.title %]</th>
+<th>[% collection.fields.field.rangement.title %]</th>
+</tr></thead>
+<tbody>
+
+[% FOREACH item = collection.entry %]
+[% IF (loop.index() mod 2) == 0 %]
+<tr class="entry0">
+[% ELSE %]
+<tr class="entry1">
+[% END %]
+<td class="field" style="text-align: center; padding-left: 5px">[% item.id %]</td>
+<td class="field"><a href="[% fdir %]/[% item.id %].html">[% item.titles.title.join('- ') %]</a></td>
+<td class="field">[% item.artists.artist.join('- ') %]</td>
+<td class="field" style="text-align: center; padding-left: 5px">[% item.tome %]</td>
+<td class="field" style="text-align: center; padding-left: 5px">[% item.nombre_de_volumes %]</td>
+<td class="field">[% item.labels.label.join('- ') %]</td>
+<td class="field">[% item.références.référence.join('- ') %]</td>
+<td class="field">[% item.date_dachat %]</td>
+<td class="field">[% item.rangement %]</td>
+</tr>
+[% END %]
+</tbody>
+</table>
+[% INCLUDE Footer.tt %]

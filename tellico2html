@@ -1,0 +1,209 @@
+#!/usr/bin/perl -w
+
+use strict;
+use IO::Uncompress::Unzip qw(unzip $UnzipError);
+use File::Basename;
+use File::Copy;
+#use XML::LibXML;
+#use XML::LibXSLT;
+use XML::Simple;
+use Template;
+use Data::Dumper;
+
+### PATHS that can be modified to adapt to local environement
+#
+# Dir where tellico files are stored
+my $dir = "$ENV{'HOME'}/Perso/Data";
+# Dir where HTML files will be generated
+my $outdir = "$dir/www";
+# Dir where tellico provided files are stored
+my $sharedir = "/usr/share/tellico";
+#
+### END of PATHS modification
+#
+
+mkdir "$outdir",0755 if (not -d "$outdir");
+chdir "$dir" || die "Unable to change directory to $dir";
+
+#my $xslt = XML::LibXSLT->new();
+#my $style = XML::LibXML->load_xml(location=>"", no_cdata=>1);
+
+my @params = <*.tc>;
+# Force the param if given on CLI
+@params = @ARGV if (defined $ARGV[0]);
+
+my %dup;
+
+# Process each tellico file
+foreach my $file (@params) {
+	print "\nProcessing tellico file $file\n";
+	print "-----------------------\n";
+	# Look for template early
+	my $out = basename($file,".tc");
+	my $tout = "$out.tt";
+	if (not -f "$tout") {
+		print "Unable to find template $tout\n";
+		next;
+	}
+	my $tsub = $out."_files.tt";
+	if (not -f "$tsub") {
+		print "Unable to find template $tsub\n";
+		next;
+	}
+
+	# read compressed input file
+	my $output;
+	unzip "$file" => \$output || die "Unable to open $file: $UnzipError";
+	#print Dumper($output)."\n";
+	
+	# with Simple
+	my $h = XMLin($output);
+	
+	# Loop on the complete collection fields
+	my $e = $h->{collection}->{fields}->{field};
+	my @dates;
+	#my @fields;
+	foreach my $k (keys %$e) {
+		# Name of fields to be changed (contains '-')
+		#print "Processing field $k\n";
+		if ($k =~ /-/) {
+			#push(@fields, $k);
+			duplicate_hyphen($k,$e);
+		}
+	}
+
+	foreach my $k (keys %$e) {
+		# keep track of dates fields now that we have all fields created 
+		# (can't be done with previous loop)
+		push(@dates, $k) if ($e->{$k}->{type} == 12);
+	}
+	#print Dumper(@dates)."\n";
+	#
+
+	# Loop on the complete collection entries
+	$e = $h->{collection}->{entry};
+	foreach my $k (@$e) {
+		foreach my $f (keys %$k) {
+				#print "Analyzing $f: ";
+			if ($f =~ /-/) {
+				#print "found '-'";
+				duplicate_hyphen($f,$k);
+			}
+			#print "\n";
+		}
+		# transform Tellico dates into perl dates
+		foreach my $d (@dates) {
+			if (defined $k->{$d}) {
+				$k->{$d}->{year} = "0001" if (not defined $k->{$d}->{year});
+				$k->{$d}->{month} = "01" if (not defined $k->{$d}->{month});
+				$k->{$d}->{day} = "01" if (not defined $k->{$d}->{day});
+				$k->{$d} = "$k->{$d}->{year}"."-"."$k->{$d}->{month}"."-"."$k->{$d}->{day}";
+			}	
+		}
+		# Remove id attributes for Simple as it duplicates the value
+		$k->{id} = $k->{id}[0];
+		#print Dumper($k)."\n";
+	}
+	#print Dumper($h)."\n";
+
+	# with LibXML
+	#my $parser = XML::LibXML->new;
+	#my $xslt = XML::LibXSLT->new;
+	#my $src = $parser->parse_string($output);
+	#print Dumper($src)."\n";
+
+	my $fdir = "$outdir/$out"."_files";
+	mkdir "$fdir",0755 if (not -d "$fdir");
+
+	$h->{fdir} = "$fdir";
+	$h->{outdir} = "$outdir";
+	$h->{collection}->{maintitle} = $h->{collection}->{title};
+
+	my $fout = "$outdir/$out.html";
+	print "Generating HTML file $fout using template $tout\n";
+
+	# link some mandatory files
+	foreach my $file ("pics/checkmark.png","tellico2html.js","shadowAlpha.png") {
+		my $dfile =basename($file);
+		copy("$sharedir/$file","$outdir/$dfile") if (not -f "$outdir/$dfile");
+	}
+
+	# prepare HTML output file using Template Toolkit
+	my $tt = Template->new({ENCODING => 'utf8'}) || die "$Template::ERROR\n";
+	$tt->process($tout,$h,"$fout",{ binmode => ':encoding(utf8)' }) || die "Template process failed: ", $tt->error(), "\n";
+
+	print "Generating HTML ".@$e." detailed files using template $tsub\n";
+	# prepare HTML output subfiles using Template Toolkit
+	foreach my $k (@$e) {
+		my $subf = "$fdir/$k->{id}.html";
+		# Copy cover image 
+		link("$out"."_files/$k->{cover}","$fdir/$k->{cover}") if ((defined $k->{cover}) && (-f "$out"."_files/$k->{cover}"));
+		# Fix dates format
+		$k->{cdate} .= " 0:0:0" if (defined $k->{cdate});
+		$k->{mdate} .= " 0:0:0" if (defined $k->{mdate});
+		# Add collection content to $k
+		my $cc = $h->{collection}->{fields}->{field};
+		foreach my $c (keys %$cc) {
+			# keep track of useful fields
+			$k->{collection}->{$c}->{title} = $cc->{$c}->{title};
+			$k->{collection}->{$c}->{category} = $cc->{$c}->{category};
+			$k->{collection}->{$c}->{prop} = $cc->{$c}->{prop};
+		}
+		$k->{collection}->{maintitle} = $h->{collection}->{title};
+		$k->{collection}->{mainhtml} = "../$out.html";
+		$tt = Template->new({ENCODING => 'utf8'}) || die "$Template::ERROR\n";
+		#print Dumper($k);
+		$tt->process($tsub,$k,"$subf",{ binmode => ':encoding(utf8)' }) || die "Template process failed: ", $tt->error(), "\n";
+	}
+	# just treat the first file for now
+	#last;
+}
+exit;
+
+sub duplicate_hyphen {
+
+# Modify private attribute name with '-' into '_' 
+# as templating doesn't deal with - in names 
+# (handled as perl variables)
+#
+my $attr = shift;
+my $k = shift;
+
+my $newattr = $attr;
+$newattr =~ s|-|_|g;
+my $jj = $k->{"$attr"};
+#print "Managing key $attr vs $newattr\n";
+
+# nothing to be done if no substitution done
+return if (($newattr eq $attr) || (not defined $jj));
+
+print "Changing key $attr into $newattr\n" if (not defined $dup{$attr});
+$dup{$attr} = $newattr;
+# print only once per key
+
+#print Dumper($attr);
+#print Dumper($jj)."\n";
+#print ref($jj)."\n";
+#print "---------\n";
+if (ref($jj) eq 'HASH') {
+	#print "Found HASH for $attr\n";
+	foreach  my $j (keys %$jj) {
+		$k->{$newattr}->{$j} = $jj->{$j};
+		# Recurse here
+		if ($j =~ /-/) {
+			duplicate_hyphen($j,$k->{$newattr});
+		}
+	}
+} elsif (ref($jj) eq 'ARRAY') {
+	my $nn = $k->{$newattr};
+	foreach my $j (@$jj) {
+		push(@$nn,$j);
+		if ($j =~ /-/) {
+			duplicate_hyphen($j,$k->{$newattr});
+		}
+	}
+# If we don't test empty, we don't get a scalar for that variable ?
+} elsif ((ref($jj) eq 'SCALAR') || (ref($jj) eq '')) {
+		$k->{$newattr} = $jj;
+}
+}
