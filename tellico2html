@@ -22,8 +22,8 @@ my $sharedir = "/usr/share/tellico";
 ### END of PATHS modification
 #
 
-mkdir "$outdir",0755 if (not -d "$outdir");
 chdir "$dir" || die "Unable to change directory to $dir";
+mkdir "$outdir",0755 if (not -d "$outdir");
 
 #my $xslt = XML::LibXSLT->new();
 #my $style = XML::LibXML->load_xml(location=>"", no_cdata=>1);
