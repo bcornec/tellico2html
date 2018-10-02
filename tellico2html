@@ -158,14 +158,16 @@ foreach my $file (@params) {
 	print "Generating ".@$e." HTML detailed files using template $tsub\n";
 	# copy gradient files
 	foreach my $f ("gradient_header.png","gradient_bg.png") {
-		my $ret = link("$dir/$out"."_files/$f","$outdir/$f");
-		copy("$dir/$out"."_files/$f","$outdir/$f") if (not $ret);
+		if (not -f "$outdir/$f") {
+			my $ret = link("$dir/$out"."_files/$f","$outdir/$f");
+			copy("$dir/$out"."_files/$f","$outdir/$f") if (not $ret);
+		}
 	}
 	# prepare HTML output subfiles using Template Toolkit
 	foreach my $k (@$e) {
 		my $subf = "$fdir/$k->{id}.html";
 		# Copy cover image 
-		if ((defined $k->{cover}) && (-f "$dir/$out"."_files/$k->{cover}")) {
+		if ((defined $k->{cover}) && (-f "$dir/$out"."_files/$k->{cover}") && (not -f "$fdir/$k->{cover}")) {
 			#print "Cover: $dir/$out"."_files/$k->{cover}\n";
 			# Link first and copy if unsuccessful
 			my $ret = link("$dir/$out"."_files/$k->{cover}","$fdir/$k->{cover}");
