@@ -77,17 +77,11 @@
 </tr></thead>
 <tbody>
 [% FOREACH item IN tracks.track %]
-[%#
-<!-- item: [% Dumper.dump(item) %] -->
-%]
 <tr>
 [%# if there is a single row it's value the key
      if there are multiple, then it's column !
 %]
 [% FOREACH column IN item.value %]
-[%#
-<!-- column1: [% Dumper.dump(column) %] -->
-%]
 [% IF column.size %]
 <td class="fieldValue" width="33%">[% column %]</td>
 [% ELSE %]
@@ -95,9 +89,6 @@
 [% END %]
 [% END %]
 [% FOREACH column IN item.column %]
-[%#
-<!-- column2: [% Dumper.dump(column) %] -->
-%]
 [% IF column.size %]
 <td class="fieldValue" width="33%">[% column %]</td>
 [% ELSE %]

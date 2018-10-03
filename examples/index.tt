@@ -2,7 +2,7 @@
 [% USE Date %]
 <table class="sortable" id="table1">
 <thead><tr>
-<th>Collection</th>
+<th>Mes collections</th>
 </tr></thead>
 <tbody>
 

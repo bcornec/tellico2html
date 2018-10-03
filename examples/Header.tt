@@ -89,6 +89,11 @@
         text-decoration: none;
         /*display: block;*/
    }
+   p.navigation {
+    font-weight: bold;
+    text-align: center;
+    clear: both;
+   }
    </style>
 <script type="text/javascript">
  var COL_SORT_ARRAY = new Array()
@@ -103,7 +108,7 @@
   COL_SORT_ARRAY[7] = 1
   COL_SORT_ARRAY[8] = 2
 </script>
-<script src="[% outdir %]/tellico2html.js" type="text/javascript"></script><title>[% collection.maintitle %]</title>
+<script src="./tellico2html.js" type="text/javascript"></script><title>[% collection.maintitle %]</title>
 </head>
 <body>
 <div id="headerblock">

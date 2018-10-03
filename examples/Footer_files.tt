@@ -9,7 +9,7 @@
 <p class="navigation"><a href="[% collection.mainhtml %]">&lt;&lt; [% collection.maintitle %]</a></p>
 <hr>
 <p>These entries have been created [% Date.format(cdate,format => "%A %d %B %Y",locale => 'fr_FR') %] and last modified [% Date.format(mdate,format => "%A %d %B %Y",locale => 'fr_FR') %]
-<p><a href="http://tellico-project.org">Tellico Data</a> processed [% Date.format(date.now,format => "%A %d %B %Y @ %H:%M:%S",locale => 'fr_FR') %] by tellico2html.pl using the Template [% tout %] - Last modified [% Date.format(template.modtime,format => "%A %d %B %Y @ %H:%M:%S",locale => 'fr_FR') %]</p>
+<p><a href="http://tellico-project.org">Tellico Data</a> processed [% Date.format(date.now,format => "%A %d %B %Y @ %H:%M:%S",locale => 'fr_FR') %] by <a href="https://github.com/bcornec/tellico2html">tellico2html</a> using the <a href="http://www.perl.org">Perl</a> <a href="http://www.template-toolkit.org">Template</a> <a href="https://github.com/bcornec/tellico2html/blob/master/examples/[% tout %]">[% tout %]</a> - Last modified [% Date.format(template.modtime,format => "%A %d %B %Y @ %H:%M:%S",locale => 'fr_FR') %]</p>
 </body>
 </html>
 
