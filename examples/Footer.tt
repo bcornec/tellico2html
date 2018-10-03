@@ -1,4 +1,4 @@
 <hr>
-<p><a href="http://tellico-project.org">Tellico Data</a> processed [% Date.format(date.now,format => "%A %d %B %Y @ %H:%M:%S",locale => 'fr_FR') %] by tellico2html.pl using the Template [% template.name %] - Last modified [% Date.format(template.modtime,format => "%A %d %B %Y @ %H:%M:%S",locale => 'fr_FR') %]</p>
+<p><a href="http://tellico-project.org">Tellico Data</a> processed [% Date.format(date.now,format => "%A %d %B %Y @ %H:%M:%S",locale => 'fr_FR') %] by tellico2html.pl using the Template [% tout %] - Last modified [% Date.format(template.modtime,format => "%A %d %B %Y @ %H:%M:%S",locale => 'fr_FR') %]</p>
 </body>
 </html>

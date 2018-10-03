@@ -19,6 +19,8 @@ my $outdir = "$ENV{'HOME'}/www";
 # Dir where tellico provided files are stored
 my $sharedir = "/usr/share/tellico";
 #
+my $tmpldir = "$ENV{'HOME'}/tmpl";
+#
 ### END of PATHS modification
 #
 
@@ -30,6 +32,7 @@ if (not -f $cf) {
 	print CF "---\n";
 	print CF "  outdir: $outdir\n";
 	print CF "  sharedir: $sharedir\n";
+	print CF "  tmpldir $tmpldir\n";
 	close(CF);
 	print "Please review $cf to adapt to your context\n";
 }
@@ -43,6 +46,9 @@ mkdir "$outdir",0755 if (not -d "$outdir");
 # Setup tellico directory
 $sharedir = $lh->{sharedir} if (defined $lh->{sharedir});
 die "tellico files not available under $sharedir" if (not -d "$sharedir");
+
+$tmpldir = $lh->{tmpldir} if (defined $lh->{tmpldir});
+die "templates not available under $tmpldir" if (not -d "$tmpldir");
 
 #my $xslt = XML::LibXSLT->new();
 #my $style = XML::LibXML->load_xml(location=>"", no_cdata=>1);
@@ -63,13 +69,13 @@ foreach my $file (@params) {
 	chdir "$dir" || die "Unable to change directory to $dir";
 	my $out = basename($file,".tc");
 	my $tout = "$out.tt";
-	if (not -f "$tout") {
-		print "Unable to find template $tout\n";
+	if (not -f "$tmpldir/$tout") {
+		warn "Unable to find template $tmpldir/$tout";
 		next;
 	}
 	my $tsub = $out."_files.tt";
-	if (not -f "$tsub") {
-		print "Unable to find template $tsub\n";
+	if (not -f "$tmpldir/$tsub") {
+		warn "Unable to find template $tmpldir/$tsub";
 		next;
 	}
 
@@ -140,10 +146,11 @@ foreach my $file (@params) {
 	$h->{fdir} = "$fdir";
 	$h->{ldir} = basename("$fdir");
 	$h->{outdir} = "$outdir";
+	$h->{tout} = "$tout";
 	$h->{collection}->{maintitle} = $h->{collection}->{title};
 
 	my $fout = "$outdir/$out.html";
-	print "Generating main HTML file $fout using template $tout\n";
+	print "Generating main HTML file $fout using template $tmpldir/$tout\n";
 
 	# link some mandatory files
 	foreach my $file ("pics/checkmark.png","tellico2html.js","shadowAlpha.png") {
@@ -153,10 +160,10 @@ foreach my $file (@params) {
 	}
 
 	# prepare HTML output file using Template Toolkit
-	my $tt = Template->new({ENCODING => 'utf8'}) || die "$Template::ERROR\n";
-	$tt->process($tout,$h,"$fout",{ binmode => ':encoding(utf8)' }) || die "Template process failed: ", $tt->error(), "\n";
+	my $tt = Template->new({ENCODING => 'utf8', ABSOLUTE => 1, INCLUDE_PATH => "$tmpldir"}) || die "$Template::ERROR\n";
+	$tt->process("$tmpldir/$tout",$h,"$fout",{ binmode => ':encoding(utf8)' }) || die "Template process failed: ", $tt->error(), "\n";
 
-	print "Generating ".@$e." HTML detailed files using template $tsub\n";
+	print "Generating ".@$e." HTML detailed files using template $tmpldir/$tsub\n";
 	# copy gradient files
 	foreach my $f ("gradient_header.png","gradient_bg.png") {
 		if (not -f "$outdir/$f") {
@@ -187,9 +194,10 @@ foreach my $file (@params) {
 		}
 		$k->{collection}->{maintitle} = $h->{collection}->{title};
 		$k->{collection}->{mainhtml} = "../$out.html";
-		$tt = Template->new({ENCODING => 'utf8'}) || die "$Template::ERROR\n";
+		$k->{tout} = "$tsub";
+		$tt = Template->new({ENCODING => 'utf8', ABSOLUTE => 1, INCLUDE_PATH => "$tmpldir"}) || die "$Template::ERROR\n";
 		#print Dumper($k);
-		$tt->process($tsub,$k,"$subf",{ binmode => ':encoding(utf8)' }) || die "Template process failed: ", $tt->error(), "\n";
+		$tt->process("$tmpldir/$tsub",$k,"$subf",{ binmode => ':encoding(utf8)' }) || die "Template process failed: ", $tt->error(), "\n";
 	}
 	# just treat the first file for now
 	#last;

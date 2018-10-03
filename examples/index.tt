@@ -1,0 +1,22 @@
+[% INCLUDE Header.tt %]
+[% USE Date %]
+<table class="sortable" id="table1">
+<thead><tr>
+<th>Collection</th>
+</tr></thead>
+<tbody>
+
+[% USE Dumper %]
+[% FOREACH item = collection %]
+[% IF (loop.index() mod 2) == 0 %]
+<tr class="entry0">
+[% ELSE %]
+<tr class="entry1">
+[% END %]
+<!-- item: [% Dumper.dump(item) %] -->
+<td class="field" style="text-align: center; padding-left: 5px"><a href="./[% item.ldir %]/[% item.name %]">[% item.name %]</a></td>
+</tr>
+[% END %]
+</tbody>
+</table>
+[% INCLUDE Footer.tt %]
