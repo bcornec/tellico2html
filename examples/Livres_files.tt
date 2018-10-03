@@ -1,11 +1,11 @@
 [% INCLUDE Header_files.tt %]
 [% USE Date %]
 
-<title>[% titles.title %] – [% collection.maintitle %]</title>
+<title>[% title %] – [% collection.maintitle %]</title>
 </head>
 <body>
 <div id="id">[% id %]</div>
-<h1>[% titles.title %]</h1>
+<h1>[% title %]</h1>
 <div id="images">
 <div class="img-shadow">[% IF amazon != '' %]<a href="[% amazon %]">[% END %]<img style="vertical-align:bottom;" alt="" src="./[% cover %]" width="150">[% IF amazon != '' %]</a>[% END %]</div>
 <br>
@@ -15,8 +15,8 @@
 <h2>[% collection.subtitle.category %]</h2>
 <table><tbody>
 <tr>
-<th class="fieldName" valign="top">[% collection.titles.title %]:</th>
-<td class="fieldValue">[% titles.title %]</td>
+<th class="fieldName" valign="top">[% collection.title.title %]:</th>
+<td class="fieldValue">[% title %]</td>
 </tr>
 <tr>
 <th class="fieldName" valign="top">[% collection.subtitle.title %]:</th>
@@ -142,15 +142,5 @@
 </tr>
 </tbody></table>
 </div></div>
-[% IF comments != '' %]
-<div class="container"><div class="category">
-<h2>[% collection.comments.title %]</h2>
-[% comments %]
-</div></div>
-[% END %]
-</div>
-<p class="navigation"><a href="../Livres.html">&lt;&lt; [% collection.maintitle %]</a></p>
-</body>
-</html>
 
 [% INCLUDE Footer_files.tt %]
