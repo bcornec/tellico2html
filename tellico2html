@@ -138,6 +138,7 @@ foreach my $file (@params) {
 	mkdir "$fdir",0755 if (not -d "$fdir");
 
 	$h->{fdir} = "$fdir";
+	$h->{ldir} = basename("$fdir");
 	$h->{outdir} = "$outdir";
 	$h->{collection}->{maintitle} = $h->{collection}->{title};
 

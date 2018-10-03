@@ -23,7 +23,7 @@
 <tr class="entry1">
 [% END %]
 <td class="field" style="text-align: center; padding-left: 5px">[% item.id %]</td>
-<td class="field"><a href="[% fdir %]/[% item.id %].html">[% item.title %]</a></td>
+<td class="field"><a href="[% ldir %]/[% item.id %].html">[% item.title %]</a></td>
 <td class="field">[% item.appellation %]</td>
 <td class="field" style="text-align: center; padding-left: 5px">[% item.année %]</td>
 <td class="field" style="text-align: center; padding-left: 5px">[% item.région %]</td>

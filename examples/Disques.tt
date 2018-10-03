@@ -27,7 +27,7 @@
 [% END %]
 <td class="field" style="text-align: center; padding-left: 5px">[% item.id %]</td>
 <td class="field">[% item.compositeurs.compositeur.join('- ') %]</td>
-<td class="field"><a href="[% fdir %]/[% item.id %].html">[% item.titles.title.join('- ') %]</a></td>
+<td class="field"><a href="[% ldir %]/[% item.id %].html">[% item.titles.title.join('- ') %]</a></td>
 <td class="field" style="text-align: center; padding-left: 5px">[% item.volume %]</td>
 <td class="field" style="text-align: center; padding-left: 5px">[% item.volumes_totaux %]</td>
 <td class="field" style="text-align: center; padding-left: 5px">[% item.volume_série %]</td>
