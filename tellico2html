@@ -50,6 +50,9 @@ die "tellico files not available under $sharedir" if (not -d "$sharedir");
 $tmpldir = $lh->{tmpldir} if (defined $lh->{tmpldir});
 die "templates not available under $tmpldir" if (not -d "$tmpldir");
 
+# Managing an index
+my $idx;
+
 #my $xslt = XML::LibXSLT->new();
 #my $style = XML::LibXML->load_xml(location=>"", no_cdata=>1);
 
@@ -145,6 +148,7 @@ foreach my $file (@params) {
 
 	$h->{fdir} = "$fdir";
 	$h->{ldir} = basename("$fdir");
+	$idx->{collection}->{$h->{collection}->{title}} = "$out.html";
 	$h->{outdir} = "$outdir";
 	$h->{tout} = "$tout";
 	$h->{collection}->{maintitle} = $h->{collection}->{title};
@@ -201,6 +205,15 @@ foreach my $file (@params) {
 	}
 	# just treat the first file for now
 	#last;
+}
+my $tt = Template->new({ENCODING => 'utf8', ABSOLUTE => 1, INCLUDE_PATH => "$tmpldir"}) || die "$Template::ERROR\n";
+$tmpldir = $lh->{tmpldir} if (defined $lh->{tmpldir});
+$idx->{tout} = "index.tt";
+if (not -f "$tmpldir/index.tt") {
+	warn "tellico index.tt template not available under $tmpldir";
+	warn "Not generating an index.html file";
+} else {
+	$tt->process("$tmpldir/index.tt",$idx,"$outdir/index.html",{ binmode => ':encoding(utf8)' }) || die "Template process failed: ", $tt->error(), "\n";
 }
 exit;
 
