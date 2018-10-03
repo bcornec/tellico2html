@@ -15,7 +15,7 @@
 <h2>[% collection.subtitle.category %]</h2>
 <table><tbody>
 <tr>
-<th class="fieldName" valign="top">[% collection.titles.title %]:</th>
+<th class="fieldName" valign="top">[% collection.title.title %]:</th>
 <td class="fieldValue">[% titles.title %]</td>
 </tr>
 <tr>
@@ -130,13 +130,5 @@
 </tr>
 </tbody></table>
 </div></div>
-[% IF comments != '' %]
-<div class="container"><div class="category">
-<h2>[% collection.comments.title %]</h2>
-[% comments %]
-</div></div>
-[% END %]
-</div>
-<p class="navigation"><a href="../BD.html">&lt;&lt; [% collection.maintitle %]</a></p>
 
 [% INCLUDE Footer_files.tt %]
