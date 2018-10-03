@@ -82,9 +82,6 @@
 <thead><tr>
 [% USE Dumper %]
 [% FOREACH item IN collection.cast.prop %]
-[%#
-<!-- [% Dumper.dump(item) %] -->
-%]
 [% NEXT IF item.key == 'columns' %]
 <th class="fieldName" valign="top" width="50%">[% item.value.content %]</th>
 [% END %]
@@ -96,9 +93,6 @@
      if there are multiple, then it's column !
 %]
 [% FOREACH column IN item.value %]
-[%#
-<!-- column1: [% Dumper.dump(column) %] -->
-%]
 [% IF column.size %]
 <td class="fieldValue" width="33%">[% column %]</td>
 [% ELSE %]
@@ -106,9 +100,6 @@
 [% END %]
 [% END %]
 [% FOREACH column IN item.column %]
-[%#
-<!-- [% Dumper.dump(column) %] -->
-%]
 [% IF column.size %]
 <td class="fieldValue" width="33%">[% column %]</td>
 [% ELSE %]
