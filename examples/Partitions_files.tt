@@ -68,9 +68,6 @@
 <thead><tr>
 [% USE Dumper %]
 [% FOREACH item IN collection.track.prop %]
-[%#
-<!-- itemT: [% Dumper.dump(item) %] -->
-%]
 [% NEXT IF item.key == 'columns' %]
 <th class="fieldName" valign="top" width="50%">[% item.value.content %]</th>
 [% END %]
