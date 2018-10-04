@@ -41,6 +41,7 @@ Point your browser to the file:///outdir/index.html URL to look at results.
 Example files are provided to help you make your own adaptations. To use them do the following:
 
 `[test ~]$` **`cp /usr/share/tellico2html/examples/.tellico2htmlrc $HOME`**
+
 `[test ~]$` **`tellico2html /usr/share/tellico2html/examples/*.tc`**
 ```
 Loading YAML conf file /home/test/.tellico2htmlrc
@@ -103,7 +104,9 @@ Notes: If you manage image files for covers, the field name in tellico should be
 You can change the name of the field (e.g. label to cover) in your tc file by doing:
 
 `[test ~]$` **`unzip file.tc`**
+
 `[test ~]$` **`perl -pi -e 's/label/cover/' tellico.xml`**
+
 `[test ~]$` **`unzip file.tc tellico.xml`**
 
 Check with `grep` that label is not used elswhere or adapt the regular expression to your needs.
