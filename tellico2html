@@ -9,6 +9,7 @@ use File::Copy;
 use XML::Simple;
 use Template;
 use YAML;
+use Cwd;
 use Data::Dumper;
 
 ### PATHS that can be modified to adapt to local environement
@@ -68,6 +69,7 @@ my @params = <*.tc>;
 @params = @ARGV if (defined $ARGV[0]);
 
 my %dup;
+my $curdir = getcwd();
 
 # Process each tellico file
 foreach my $file (@params) {
@@ -174,22 +176,26 @@ foreach my $file (@params) {
 	$tt->process("$tmpldir/$tout",$h,"$fout",{ binmode => ':encoding(utf8)' }) || die "Template process failed: ", $tt->error(), "\n";
 
 	print "Generating ".@$e." HTML detailed files using template $tmpldir/$tsub\n";
+	my $srcdir = "$out"."_files";
 	# copy gradient files
 	foreach my $f ("gradient_header.png","gradient_bg.png") {
 		if (not -f "$outdir/$f") {
-			my $ret = link("$dir/$out"."_files/$f","$outdir/$f");
-			copy("$dir/$out"."_files/$f","$outdir/$f") if (not $ret);
+			my $ret = link("$srcdir/$f","$outdir/$f");
+			copy("$srcdir/$f","$outdir/$f") if (not $ret);
 		}
 	}
 	# prepare HTML output subfiles using Template Toolkit
 	foreach my $k (@$e) {
 		my $subf = "$fdir/$k->{id}.html";
 		# Copy cover image 
-		if ((defined $k->{cover}) && (-f "$dir/$out"."_files/$k->{cover}") && (not -f "$fdir/$k->{cover}")) {
+		if ((defined $k->{cover}) && (-f "$srcdir/$k->{cover}") && (not -f "$fdir/$k->{cover}")) {
 			#print "Cover: $dir/$out"."_files/$k->{cover}\n";
 			# Link first and copy if unsuccessful
-			my $ret = link("$dir/$out"."_files/$k->{cover}","$fdir/$k->{cover}");
-			copy("$dir/$out"."_files/$k->{cover}","$fdir/$k->{cover}") if (not $ret);
+			my $ret = link("$srcdir/$k->{cover}","$fdir/$k->{cover}");
+			copy("$srcdir/$k->{cover}","$fdir/$k->{cover}") if (not $ret);
+		}
+		if ((defined $k->{cover}) && (not -f "$srcdir/$k->{cover}")) {
+			warn "Unable to copy image file $srcdir/$k->{cover}";
 		}
 		# Fix dates format
 		$k->{cdate} .= " 0:0:0" if (defined $k->{cdate});
@@ -211,6 +217,7 @@ foreach my $file (@params) {
 	}
 	# just treat the first file for now
 	#last;
+	chdir($curdir);
 }
 my $tt = Template->new({ENCODING => 'utf8', ABSOLUTE => 1, INCLUDE_PATH => "$tmpldir"}) || die "$Template::ERROR\n";
 $tmpldir = $lh->{tmpldir} if (defined $lh->{tmpldir});
