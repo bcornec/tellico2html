@@ -18,11 +18,11 @@ DATADIR=$target/share/$NAME
 BINDIR=$target/bin
 
 echo "Creating target directories ..."
-install -m 755 -d $MANDIR $BINDIR $DATADIR/$NAME/examples
+install -m 755 -d $MANDIR $BINDIR $DATADIR/examples
 
 echo "Copying files ..."
 install -m 0755 $NAME $BINDIR
 pod2man -c "tellico2html" --section=1 $BINDIR/$NAME > $MANDIR/$NAME.1
 chmod 644 $MANDIR/$NAME.1
-cp -a examples/* examples/.??* $DATADIR/$NAME/examples
+cp -a examples/* examples/.??* $DATADIR/examples
 exit 0

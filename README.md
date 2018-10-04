@@ -19,10 +19,10 @@ Use: **`./install.sh`** as root user
 
 You can pass 2 additional variables to change the target directories. Without them, installation will be under /usr/local
 
-Use PREFIX=/opt to install under that directory
+Use **`export PREFIX=/opt`** to install under that directory
 Packagers may find the DESTDIR variable useful to install in addition under a build subtree.
 
-Example for an install under ${RPM_BUILD_ROOT}/usr: ./install.sh DESTDIR=${RPM_BUILD_ROOT} PREFIX=/usr
+Example for an install under ${RPM_BUILD_ROOT}/usr: **`DESTDIR=${RPM_BUILD_ROOT} PREFIX=/usr ./install.sh`**
 
 ## Usage
 
