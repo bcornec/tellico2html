@@ -7,7 +7,7 @@
 <div id="id">[% id %]</div>
 <h1>[% titles.title %]</h1>
 <div id="images">
-<div class="img-shadow">[% IF amazon != '' %]<a href="[% amazon %]">[% END %]<img style="vertical-align:bottom;" alt="" src="./[% label %]" width="150">[% IF amazon != '' %]</a>[% END %]</div>
+<div class="img-shadow">[% IF amazon != '' %]<a href="[% amazon %]">[% END %]<img style="vertical-align:bottom;" alt="" src="./[% cover %]" width="150">[% IF amazon != '' %]</a>[% END %]</div>
 <br>
 </div>
 <div id="content">
@@ -86,5 +86,5 @@
 [% description %]
 </div></div>
 [% END %]
-</div>
+
 [% INCLUDE Footer_files.tt %]
