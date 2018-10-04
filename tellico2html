@@ -50,6 +50,12 @@ die "tellico files not available under $sharedir" if (not -d "$sharedir");
 $tmpldir = $lh->{tmpldir} if (defined $lh->{tmpldir});
 die "templates not available under $tmpldir" if (not -d "$tmpldir");
 
+print "\n--------- tellico2html Conf ------------\n";
+print "Output Directory: $outdir\n";
+print "Template Directory: $tmpldir\n";
+print "Tellico Directory: $sharedir\n";
+print "--------- tellico2html End Conf --------\n";
+
 # Managing an index
 my $idx;
 
