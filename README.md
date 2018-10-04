@@ -5,7 +5,7 @@ tellico2html is a tool to automatically generate a Web site from Tellico data us
 
 You can clone the git repository for development version and tags:
 
-git clone https://github.com/bcornec/tellico2html.git
+`[test ~]$` **`git clone https://github.com/bcornec/tellico2html.git`**
 
 Or download a tar ball from https://github.com/bcornec/tellico2html/archive/vX.Y.Z.tar.gz
 
@@ -15,7 +15,7 @@ Or use packages for your distribution (only Mageia done at the moment)
 
 tellico2html comes with a script to help manual and packaged installation
 
-Use: ./install.sh as root user
+Use: **`./install.sh`** as root user
 
 You can pass 2 additional variables to change the target directories. Without them, installation will be under /usr/local
 
