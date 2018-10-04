@@ -17,22 +17,22 @@ tellico2html comes with a script to help manual and packaged installation
 
 Use: **`./install.sh`** as root user
 
-You can pass 2 additional variables to change the target directories. Without them, installation will be under /usr/local
+You can pass 2 additional variables to change the target directories. Without them, installation will be under `/usr/local`
 
 Use **`export PREFIX=/opt`** to install under that directory
-Packagers may find the DESTDIR variable useful to install in addition under a build subtree.
+Packagers may find the `DESTDIR` variable useful to install in addition under a build subtree.
 
-Example for an install under ${RPM_BUILD_ROOT}/usr: **`DESTDIR=${RPM_BUILD_ROOT} PREFIX=/usr ./install.sh`**
+Example for an install under `${RPM_BUILD_ROOT}/usr`: **`DESTDIR=${RPM_BUILD_ROOT} PREFIX=/usr ./install.sh`**
 
 ## Usage
 
-Before using the command, you may want to copy the YAML .tellico2htmlrc file given as example in your HOME directory and adapt it to your needs. The file provided defines 3 variables:
+Before using the command, you may want to copy the YAML `.tellico2htmlrc` file given as example in your `HOME` directory and adapt it to your needs. The file provided defines 3 variables:
 
-outdir: the directory in which the web pages will be generated
-sharedir: the directory where tellico places its data files (shouldn't need to be changed except if you did a local install under /usr/local e.g.)
-tmpldir: the directory where tellico2html is using the Template Toolkit template files for your tellico data files. The template file should be named the same as the tellico tc file. If you want to process a DVD.tc file in a directory, you need to create 2 files in that directory, the DVD.tt to describe the list of DVDs and the DVD_files.tt to describe the info for a specific DVD. Examples are provided which should serve as a base to support your own .tc file setup.
+ - `outdir`: the directory in which the web pages will be generated
+ - `sharedir`: the directory where tellico places its data files (shouldn't need to be changed except if you did a local install of `tellico` under `/usr/local` e.g.)
+ - `tmpldir`: the directory where tellico2html is using the Template Toolkit template files for your tellico data files. The template file should be named the same as the tellico tc file. If you want to process a collection.tc file in a directory, you need to create 2 files in that `tmpldir` directory, the collection.tt to describe the list of items and the collection_files.tt to describe the info for a specific item. Examples are provided which should serve as a base to support your own .tc file setup.
 
-Once adapted, you may run the tellico2html command. Without parameters, it will process all the .tc files in the current directory and using the templates from the tmpldir generate an index.html, an collection HTML page per .tc file, and in a subdir collection_files containing one HTML file per element of your collection (collectionbeing replaced by the basename of your .tc file)
+Once adapted, you may run the `tellico2html` command. Without parameters, it will process all the .tc files in the current directory and, using the templates from the tmpldir, generate an index.html, a collection HTML page per .tc file, and a subdir collection_files containing one HTML file per element of your collection (collection being replaced by the basename of your .tc file)
 
 With parameters, the tool will just process the files given (note that the index.html generated will only refer to these files, not all of them).
 
