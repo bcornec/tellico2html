@@ -12,6 +12,59 @@ use YAML;
 use Cwd;
 use Data::Dumper;
 
+=head1 NAME
+
+tellico2html - tellico data web site generation
+
+=head1 DESCRIPTION
+
+tellico2html allow the automatic generation of a full web site from tellico data.
+It uses perl and Template::Toolkit templates to perform its tasks.
+
+=head1 SYNOPSIS
+
+tellico2html [collection.tc ...]
+
+=head1 ARGUMENTS
+
+collection.tc is a tellico data file
+
+=head1 WEB SITES
+
+The main Web site of the project is available at L<https://github.com/bcornec/tellico2html>.
+
+=head1 CONFIGURATION FILE
+
+tellico2html reads the configuration file .tellico2htmlrc in your HOME directory.
+It can contain 3 variables describing your environement:
+
+=over 4
+
+=item B<outdir:>
+
+The directory in which the web pages will be generated
+
+=item B<sharedir:>
+
+The directory where tellico places its data files (shouldn't need to be changed except if you did a local install of tellico under /usr/local e.g.)
+
+=item B<tmpldir:>
+
+The directory where tellico2html is using the Template Toolkit template files for your tellico data files. The template file should be named the same as the tellico tc file. If you want to process a collection.tc file in a directory, you need to create 2 files in that tmpldir directory, the collection.tt to describe the list of items and the collection_files.tt to describe the info for a specific item. Examples are provided which should serve as a base to support your own .tc file setup.
+
+=back
+
+=head1 AUTHORS
+
+Bruno Cornec L<mailto:bruno@project-builder.org>.
+
+=head1 COPYRIGHT
+
+tellico2html is distributed under the AGPL v3.0 license
+described in the file C<LICENSE> included with the distribution.
+
+=cut
+
 ### PATHS that can be modified to adapt to local environement
 ### used as defaults to create the YAML configuration file
 #
