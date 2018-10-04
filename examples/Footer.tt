@@ -3,6 +3,6 @@
 [% END %]
 
 <hr>
-<p><a href="http://tellico-project.org">Tellico Data</a> processed [% Date.format(date.now,format => "%A %d %B %Y @ %H:%M:%S",locale => 'fr_FR') %] by by <a href="https://github.com/bcornec/tellico2html">tellico2html</a> using the <a href="http://www.perl.org">Perl</a> <a href="http://www.template-toolkit.org">Template</a> <a href="https://github.com/bcornec/tellico2html/blob/master/examples/[% tout %]">[% tout %]</a> - Last modified [% Date.format(template.modtime,format => "%A %d %B %Y @ %H:%M:%S",locale => 'fr_FR') %]</p>
+<p><a href="http://tellico-project.org">Tellico Data</a> processed [% Date.format(date.now,format => "%A %d %B %Y @ %H:%M:%S",locale => 'fr_FR') %] by <a href="https://github.com/bcornec/tellico2html">tellico2html</a> using the <a href="http://www.perl.org">Perl</a> <a href="http://www.template-toolkit.org">Template</a> <a href="https://github.com/bcornec/tellico2html/blob/master/examples/[% tout %]">[% tout %]</a> - Last modified [% Date.format(template.modtime,format => "%A %d %B %Y @ %H:%M:%S",locale => 'fr_FR') %]</p>
 </body>
 </html>
