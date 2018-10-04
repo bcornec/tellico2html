@@ -90,7 +90,7 @@ foreach my $file (@params) {
 
 	# read compressed input file
 	my $output;
-	unzip "$file" => \$output || die "Unable to open $file: $UnzipError";
+	unzip basename("$file") => \$output || die "Unable to open ".basename($file).": $UnzipError";
 	#print Dumper($output)."\n";
 	
 	# with Simple
