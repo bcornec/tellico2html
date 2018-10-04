@@ -1,5 +1,4 @@
 ---
   outdir: /tmp/www
   sharedir: /usr/share/tellico
-  tmpldir:/usr/share/tellico2html/examples
-
+  tmpldir: /usr/share/tellico2html/examples
