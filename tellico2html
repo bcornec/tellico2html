@@ -4,12 +4,14 @@ use strict;
 use IO::Uncompress::Unzip qw(unzip $UnzipError);
 use File::Basename;
 use File::Copy;
+use File::stat;
 #use XML::LibXML;
 #use XML::LibXSLT;
 use XML::Simple;
 use Template;
 use YAML;
 use Cwd;
+use Date::Manip;
 use Data::Dumper;
 
 =head1 NAME
@@ -123,6 +125,7 @@ my @params = <*.tc>;
 
 my %dup;
 my $curdir = getcwd();
+my $changed = 0;
 
 # Process each tellico file
 foreach my $file (@params) {
@@ -215,6 +218,22 @@ foreach my $file (@params) {
 	$h->{collection}->{maintitle} = $h->{collection}->{title};
 
 	my $fout = "$outdir/$out.html";
+
+	# Do not analyze if not modified since last generation
+	# and similarly for the template
+	my $sb = stat("$fout");
+	my $outdate = scalar($sb->mtime) if (defined $sb);
+	my $tsb = stat("$tmpldir/$tout");
+	my $ttdate = scalar($tsb->mtime) if (defined $tsb);
+	my $tcsb = stat("$file");
+	my $tcdate = scalar($tcsb->mtime) if (defined $tcsb);
+	#print "File ($fout): $outdate - Template($tmpldir/$tout): $ttdate - TC ($file): $tcdate\n";
+	if ((defined $sb) && (defined $tsb) && (defined $tcsb) && ($outdate >= $tcdate) && ($outdate >= $ttdate)) {
+		print "Nothing changed since last run, no need to generate $fout\n";
+		next;
+	}
+
+	$changed = 1;
 	print "Generating main HTML file $fout using template $tmpldir/$tout\n";
 
 	# link some mandatory files
@@ -228,7 +247,7 @@ foreach my $file (@params) {
 	my $tt = Template->new({ENCODING => 'utf8', ABSOLUTE => 1, INCLUDE_PATH => "$tmpldir"}) || die "$Template::ERROR\n";
 	$tt->process("$tmpldir/$tout",$h,"$fout",{ binmode => ':encoding(utf8)' }) || die "Template process failed: ", $tt->error(), "\n";
 
-	print "Generating ".@$e." HTML detailed files using template $tmpldir/$tsub\n";
+	print "Generating up to ".@$e." HTML detailed files using template $tmpldir/$tsub\n";
 	my $srcdir = "$out"."_files";
 	# copy gradient files
 	foreach my $f ("gradient_header.png","gradient_bg.png") {
@@ -238,6 +257,7 @@ foreach my $file (@params) {
 		}
 	}
 	# prepare HTML output subfiles using Template Toolkit
+	my $cpt = 0;
 	foreach my $k (@$e) {
 		my $subf = "$fdir/$k->{id}.html";
 		# Copy cover image 
@@ -251,8 +271,8 @@ foreach my $file (@params) {
 			warn "Unable to copy image file $srcdir/$k->{cover}";
 		}
 		# Fix dates format
-		$k->{cdate} .= " 0:0:0" if (defined $k->{cdate});
-		$k->{mdate} .= " 0:0:0" if (defined $k->{mdate});
+		$k->{cdate} .= " 23:59:59" if (defined $k->{cdate});
+		$k->{mdate} .= " 23:59:59" if (defined $k->{mdate});
 		# Add collection content to $k
 		my $cc = $h->{collection}->{fields}->{field};
 		foreach my $c (keys %$cc) {
@@ -264,22 +284,41 @@ foreach my $file (@params) {
 		$k->{collection}->{maintitle} = $h->{collection}->{title};
 		$k->{collection}->{mainhtml} = "../$out.html";
 		$k->{tout} = "$tsub";
+
+		# Do not generate if not modified since last generation
+		# and similarly for the template
+		$sb = stat($subf);
+		$outdate = scalar($sb->mtime) if (defined $sb);
+		$tsb = stat("$tmpldir/$tsub");
+		$ttdate = scalar($tsb->mtime) if (defined $tsb);
+		#print "mdate: $k->{mdate}\n";
+		$tcdate = UnixDate($k->{mdate},"%s");
+		#print "File ($subf): $outdate - Template($tmpldir/$tsub): $ttdate - TC ($file): $tcdate\n";
+		if ((defined $sb) && (defined $tsb) && ($outdate >= $tcdate) && ($outdate >= $ttdate)) {
+			#print "$subf unchanged since last run\n";
+			next;
+		}
+		$cpt++;
+
 		$tt = Template->new({ENCODING => 'utf8', ABSOLUTE => 1, INCLUDE_PATH => "$tmpldir"}) || die "$Template::ERROR\n";
 		#print Dumper($k);
 		$tt->process("$tmpldir/$tsub",$k,"$subf",{ binmode => ':encoding(utf8)' }) || die "Template process failed: ", $tt->error(), "\n";
 	}
+	print "$cpt HTML detailed files really generated out of ".@$e."\n";
 	# just treat the first file for now
 	#last;
 	chdir($curdir);
 }
-my $tt = Template->new({ENCODING => 'utf8', ABSOLUTE => 1, INCLUDE_PATH => "$tmpldir"}) || die "$Template::ERROR\n";
-$tmpldir = $lh->{tmpldir} if (defined $lh->{tmpldir});
-$idx->{tout} = "index.tt";
-if (not -f "$tmpldir/index.tt") {
-	warn "tellico index.tt template not available under $tmpldir";
-	warn "Not generating an index.html file";
-} else {
-	$tt->process("$tmpldir/index.tt",$idx,"$outdir/index.html",{ binmode => ':encoding(utf8)' }) || die "Template process failed: ", $tt->error(), "\n";
+if ($changed == 1) {
+	my $tt = Template->new({ENCODING => 'utf8', ABSOLUTE => 1, INCLUDE_PATH => "$tmpldir"}) || die "$Template::ERROR\n";
+	$tmpldir = $lh->{tmpldir} if (defined $lh->{tmpldir});
+	$idx->{tout} = "index.tt";
+	if (not -f "$tmpldir/index.tt") {
+		warn "tellico index.tt template not available under $tmpldir";
+		warn "Not generating an index.html file";
+	} else {
+		$tt->process("$tmpldir/index.tt",$idx,"$outdir/index.html",{ binmode => ':encoding(utf8)' }) || die "Template process failed: ", $tt->error(), "\n";
+	}
 }
 exit;
 
