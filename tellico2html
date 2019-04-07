@@ -292,7 +292,8 @@ foreach my $file (@params) {
 		$tsb = stat("$tmpldir/$tsub");
 		$ttdate = scalar($tsb->mtime) if (defined $tsb);
 		#print "mdate: $k->{mdate}\n";
-		$tcdate = UnixDate($k->{mdate},"%s");
+		$tcdate = UnixDate($k->{mdate},"%s") if (defined $k->{mdate});
+		$tcdate = UnixDate("1900-01-01","%s") if (not defined $tcdate);
 		#print "File ($subf): $outdate - Template($tmpldir/$tsub): $ttdate - TC ($file): $tcdate\n";
 		if ((defined $sb) && (defined $tsb) && ($outdate >= $tcdate) && ($outdate >= $ttdate)) {
 			#print "$subf unchanged since last run\n";
@@ -303,6 +304,11 @@ foreach my $file (@params) {
 		$tt = Template->new({ENCODING => 'utf8', ABSOLUTE => 1, INCLUDE_PATH => "$tmpldir"}) || die "$Template::ERROR\n";
 		#print Dumper($k);
 		$tt->process("$tmpldir/$tsub",$k,"$subf",{ binmode => ':encoding(utf8)' }) || die "Template process failed: ", $tt->error(), "\n";
+		if (ref($k->{titles}->{title}) eq 'ARRAY') {
+			print "Generating $subf ($k->{titles}->{title}->[0])\n";
+		} else {
+			print "Generating $subf ($k->{titles}->{title})\n";
+		}
 	}
 	print "$cpt HTML detailed files really generated out of ".@$e."\n";
 	# just treat the first file for now
