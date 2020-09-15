@@ -1,5 +1,5 @@
 [% INCLUDE Header_files.tt %]
-[% USE Date %]
+[% USE date(format = '%d-%b-%Y', locale = fr_FR) %]
 
 <title>[% titles.title %] – [% collection.maintitle %]</title>
 </head>

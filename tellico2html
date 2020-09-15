@@ -245,6 +245,7 @@ foreach my $file (@params) {
 
 	# prepare HTML output file using Template Toolkit
 	my $tt = Template->new({ENCODING => 'utf8', ABSOLUTE => 1, INCLUDE_PATH => "$tmpldir"}) || die "$Template::ERROR\n";
+	#print("STEP 2\n");
 	$tt->process("$tmpldir/$tout",$h,"$fout",{ binmode => ':encoding(utf8)' }) || die "Template process failed: ", $tt->error(), "\n";
 
 	print "Generating up to ".@$e." HTML detailed files using template $tmpldir/$tsub\n";

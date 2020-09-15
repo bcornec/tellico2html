@@ -1,5 +1,5 @@
 [% INCLUDE Header.tt %]
-[% USE Date %]
+[% USE date(format = '%d-%b-%Y', locale = fr_FR) %]
 <table class="sortable" id="table1">
 <thead><tr>
 <th>[% collection.fields.field.id.title %]</th>
