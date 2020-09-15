@@ -307,8 +307,12 @@ foreach my $file (@params) {
 		$tt->process("$tmpldir/$tsub",$k,"$subf",{ binmode => ':encoding(utf8)' }) || die "Template process failed: ", $tt->error(), "\n";
 		if (ref($k->{titles}->{title}) eq 'ARRAY') {
 			print "Generating $subf ($k->{titles}->{title}->[0])\n";
-		} else {
+		} elsif (defined ($k->{titles}->{title})) {
 			print "Generating $subf ($k->{titles}->{title})\n";
+		} elsif (defined ($k->{title})) {
+			print "Generating $subf ($k->{title})\n";
+		} else {
+			print "Generating $subf (Unknown)\n";
 		}
 	}
 	print "$cpt HTML detailed files really generated out of ".@$e."\n";
