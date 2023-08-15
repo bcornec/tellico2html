@@ -1,0 +1,37 @@
+[% INCLUDE Header.tt %]
+[% USE date(format = '%d-%b-%Y', locale = fr_FR) %]
+<table class="sortable" id="table1">
+<thead><tr>
+<th>[% collection.fields.field.type_dinstrument.title %]</th>
+<th>[% collection.fields.field.tessiture.title %]</th>
+<th>[% collection.fields.field.modele.title %]</th>
+<th>[% collection.fields.field.numero.title %]</th>
+<th>[% collection.fields.field.matériau.title %]</th>
+<th>[% collection.fields.field.parties.title %]</th>
+<th>[% collection.fields.field.facteur2.title %]</th>
+<th>[% collection.fields.field.date_dachat.title %]</th>
+<th>[% collection.fields.field.prix_dachat.title %]</th>
+</tr></thead>
+<tbody>
+
+[% FOREACH item = collection.entry %]
+[% IF (loop.index() mod 2) == 0 %]
+<tr class="entry0">
+[% ELSE %]
+<tr class="entry1">
+[% END %]
+<td class="field" style="text-align: center; padding-left: 5px">[% item.id %]</td>
+<td class="field"><a href="[% ldir %]/[% item.id %].html">[% item.type_dinstrument %]</a></td>
+<td class="field">[% item.tessiture %]</td>
+<td class="field">[% item.modele %]</td>
+<td class="field">[% item.numero %]</td>
+<td class="field">[% item.matériau %]</td>
+<td class="field" style="text-align: center; padding-left: 5px">[% item.parties %]</td>
+<td class="field">[% item.facteur2 %]</td>
+<td class="field">[% item.date_dachat %]</td>
+<td class="field">[% item.prix_dachat %]</td>
+</tr>
+[% END %]
+</tbody>
+</table>
+[% INCLUDE Footer.tt %]

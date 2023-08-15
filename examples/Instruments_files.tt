@@ -1,0 +1,107 @@
+[% INCLUDE Header_files.tt %]
+[% USE date(format = '%d-%b-%Y', locale = fr_FR) %]
+
+<title>[% titles.title.join(', ') %] – [% collection.maintitle %]</title>
+</head>
+<body>
+<div id="id">[% id %]</div>
+<h1>[% titles.title.join(', ') %]</h1>
+<div id="images">
+<div class="img-shadow"><img style="vertical-align:bottom;" alt="" src="./[% photo %]" width="150" ></div>
+<br>
+</div>
+<div id="content">
+<div class="container"><div class="category">
+<h2>[% collection.genre.category %]</h2>
+<table><tbody>
+<tr>
+<th class="fieldName" valign="top">[% collection.nom.title %]:</th>
+<td class="fieldValue">[% titles.title.join(', ') %]</td>
+</tr>
+<tr>
+<th class="fieldName" valign="top">[% collection.type_dinstrument.title %]:</th>
+<td class="fieldValue">[% type_dinstrument %]</td>
+</tr>
+<tr>
+<th class="fieldName" valign="top">[% collection.tessiture.title %]:</th>
+<td class="fieldValue">[% tessiture %]</td>
+</tr>
+<tr>
+<th class="fieldName" valign="top">[% collection.modele.title %]:</th>
+<td class="fieldValue">[% modele %]</td>
+</tr>
+<tr>
+<th class="fieldName" valign="top">[% collection.numero.title %]:</th>
+<td class="fieldValue">[% numero %]</td>
+</tr>
+<tr>
+<th class="fieldName" valign="top">[% collection.matériau.title %]:</th>
+<td class="fieldValue">[% matériau %]</td>
+</tr>
+<tr>
+<th class="fieldName" valign="top">[% collection.parties.title %]:</th>
+<td class="fieldValue">[% parties %]</td>
+</tr>
+<tr>
+<th class="fieldName" valign="top">[% collection.corps_415.title %]:</th>
+[% IF corps_415 %]
+<td class="fieldValue"><img height="14" alt="✓" src="../checkmark.png"></td>
+[% ELSE %]
+<td class="fieldValue"></td>
+[% END %]
+</tr>
+<tr>
+<th class="fieldName" valign="top">[% collection.clé.title %]:</th>
+[% IF clé %]
+<td class="fieldValue"><img height="14" alt="✓" src="../checkmark.png"></td>
+[% ELSE %]
+<td class="fieldValue"></td>
+[% END %]
+</tr>
+<tr>
+<th class="fieldName" valign="top">[% collection.nom_complementaire.title %]:</th>
+<td class="fieldValue">[% nom_complementaire %]</td>
+</tr>
+<tr>
+<th class="fieldName" valign="top">[% collection.facteur2.title %]:</th>
+<td class="fieldValue">[% facteur2 %]</td>
+</tr>
+<tr>
+<th class="fieldName" valign="top">[% collection.date_fabrication.title %]:</th>
+<td class="fieldValue">[% date_fabrication %]</td>
+</tr>
+</tbody></table>
+</div></div>
+<div class="container"><div class="category">
+<h2>[% collection.rangement.category %]</h2>
+<table><tbody>
+<tr>
+<th class="fieldName" valign="top">[% collection.prix_achat.title %]:</th>
+<td class="fieldValue">[% prix_achat %]</td>
+</tr>
+<tr>
+<th class="fieldName" valign="top">[% collection.date_achat.title %]:</th>
+<td class="fieldValue">[% date_achat %]</td>
+</tr>
+<tr>
+<th class="fieldName" valign="top">[% collection.prete.title %]:</th>
+[% IF prete %]
+<td class="fieldValue"><img height="14" alt="✓" src="../checkmark.png"></td>
+<th class="fieldName" valign="top">[% collection.emprunteur.title %]:</th>
+<td class="fieldValue">[% emprunteur %]</td>
+[% ELSE %]
+<td class="fieldValue"></td>
+[% END %]
+</tr>
+<tr>
+<th class="fieldName" valign="top">[% collection.décoration.title %]:</th>
+[% IF décoration %]
+<td class="fieldValue"><img height="14" alt="✓" src="../checkmark.png"></td>
+[% ELSE %]
+<td class="fieldValue"></td>
+[% END %]
+</tr>
+</tbody></table>
+</div></div>
+
+[% INCLUDE Footer_files.tt %]
