@@ -2,6 +2,7 @@
 [% USE date(format = '%d-%b-%Y', locale = fr_FR) %]
 <table class="sortable" id="table1">
 <thead><tr>
+<th>[% collection.fields.field.id.title %]</th>
 <th>[% collection.fields.field.type_dinstrument.title %]</th>
 <th>[% collection.fields.field.tessiture.title %]</th>
 <th>[% collection.fields.field.modele.title %]</th>
@@ -9,8 +10,8 @@
 <th>[% collection.fields.field.matériau.title %]</th>
 <th>[% collection.fields.field.parties.title %]</th>
 <th>[% collection.fields.field.facteur2.title %]</th>
-<th>[% collection.fields.field.date_dachat.title %]</th>
-<th>[% collection.fields.field.prix_dachat.title %]</th>
+<th>[% collection.fields.field.date_achat.title %]</th>
+<th>[% collection.fields.field.prix_achat.title %]</th>
 </tr></thead>
 <tbody>
 
@@ -28,8 +29,8 @@
 <td class="field">[% item.matériau %]</td>
 <td class="field" style="text-align: center; padding-left: 5px">[% item.parties %]</td>
 <td class="field">[% item.facteur2 %]</td>
-<td class="field">[% item.date_dachat %]</td>
-<td class="field">[% item.prix_dachat %]</td>
+<td class="field">[% item.date_achat %]</td>
+<td class="field">[% item.prix_achat %]</td>
 </tr>
 [% END %]
 </tbody>

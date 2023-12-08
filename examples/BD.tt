@@ -3,9 +3,9 @@
 <table class="sortable" id="table1">
 <thead><tr>
 <th>[% collection.fields.field.id.title %]</th>
+<th>[% collection.fields.field.title.title %]</th>
 <th>[% collection.fields.field.series.title %]</th>
 <th>[% collection.fields.field.issue.title %]</th>
-<th>[% collection.fields.field.title.title %]</th>
 <th>[% collection.fields.field.publisher.title %]</th>
 <th>[% collection.fields.field.author.title %]</th>
 <th>[% collection.fields.field.lu.title %]</th>
@@ -21,9 +21,9 @@
 <tr class="entry1">
 [% END %]
 <td class="field" style="text-align: center; padding-left: 5px">[% item.id %]</td>
+<td class="field"><a href="[% ldir %]/[% item.id %].html">[% item.titles.title %]</a></td>
 <td class="field">[% item.seriess.series.join(', ') %]</td>
 <td class="field" style="text-align: center; padding-left: 5px">[% item.issues.issue %]</td>
-<td class="field"><a href="[% ldir %]/[% item.id %].html">[% item.titles.title %]</a></td>
 <td class="field">[% item.publisher %]</td>
 <td class="field">[% item.authors.author.join(', ') %]</td>
 [% IF item.lu %]
