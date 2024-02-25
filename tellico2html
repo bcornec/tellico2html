@@ -88,7 +88,7 @@ if (not -f $cf) {
 	print CF "---\n";
 	print CF "  outdir: $outdir\n";
 	print CF "  sharedir: $sharedir\n";
-	print CF "  tmpldir $tmpldir\n";
+	print CF "  tmpldir: $tmpldir\n";
 	close(CF);
 	print "Please review $cf to adapt to your context\n";
 }
