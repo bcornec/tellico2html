@@ -90,7 +90,8 @@ if (not -f $cf) {
 	print CF "  sharedir: $sharedir\n";
 	print CF "  tmpldir: $tmpldir\n";
 	close(CF);
-	print "Please review $cf to adapt to your context\n";
+	print "Please review $cf to adapt to your context and launch tellico2html again\n";
+	exit 0
 }
 print "Loading YAML conf file $cf\n";
 my $lh = YAML::LoadFile($cf);
