@@ -26,7 +26,7 @@ Example for an install under `${RPM_BUILD_ROOT}/usr`: **`DESTDIR=${RPM_BUILD_ROO
 
 ## Usage
 
-Before using the command, you may want to copy the YAML `.tellico2htmlrc` file given as example in your `HOME` directory and adapt it to your needs. The file provided defines 3 variables:
+Before using the command, you may want to copy the YAML `examples/.tellico2htmlrc` file given as example in your `HOME` directory and adapt it to your needs. The file provided defines 3 variables:
 
  - `outdir`: the directory in which the web pages will be generated
  - `sharedir`: the directory where tellico places its data files (shouldn't need to be changed except if you did a local install of `tellico` under `/usr/local` e.g.)
